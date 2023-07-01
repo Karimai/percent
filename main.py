@@ -5,9 +5,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from config.config import engine
+from sqlalchemy.orm import Session
 from models import models
 from repositories import login
 from routers import residence, user
+from repositories.user_repo import create_admin_user
 
 app = FastAPI(
     title="Percent app",
@@ -29,7 +31,11 @@ templates = Jinja2Templates(directory="templates")
 @app.on_event("startup")
 async def startup():
     # Create the tables
-    models.Base.metadata.create_all(bind=engine)
+    with engine.begin() as connection:
+        models.Base.metadata.create_all(bind=connection)
+        db = Session(bind=connection)
+        # Create an admin user
+        create_admin_user(db)
 
 
 @app.get("/", response_class=HTMLResponse)

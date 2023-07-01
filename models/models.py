@@ -18,6 +18,7 @@ class User(Base):
     last_name = Column(String)
     email = Column(String, unique=True)
     date_of_birth = Column(Date)
+    role = Column(String, default="Regular")  # Admin, Regular
 
     residences = relationship("Residence", back_populates="user")
 
