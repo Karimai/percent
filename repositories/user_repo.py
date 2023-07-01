@@ -2,12 +2,11 @@
 # and completion in your functions.
 import os
 
+from dotenv import load_dotenv
 from fastapi import HTTPException, status
 from passlib.context import CryptContext
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-from dotenv import load_dotenv
-from config.config import get_db
 
 from models import models
 from schemas import schemas
@@ -62,7 +61,11 @@ def create_user(db: Session, user: schemas.UserCreate) -> models.User:
 
 @handle_exceptions
 def create_admin_user(db: Session):
-    admin = db.query(models.User).filter(models.User.username == os.getenv("ADMIN_USERNAME")).first()
+    admin = (
+        db.query(models.User)
+        .filter(models.User.username == os.getenv("ADMIN_USERNAME"))
+        .first()
+    )
     if not admin:
         hashed_password = pwd_context.hash(os.getenv("ADMIN_PASS"))
 

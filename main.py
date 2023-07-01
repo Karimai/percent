@@ -3,13 +3,13 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
 
 from config.config import engine
-from sqlalchemy.orm import Session
 from models import models
 from repositories import login
-from routers import residence, user
 from repositories.user_repo import create_admin_user
+from routers import residence, user
 
 app = FastAPI(
     title="Percent app",
