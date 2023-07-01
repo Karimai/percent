@@ -11,9 +11,17 @@ from schemas import schemas
 router = APIRouter(tags=["Users"], prefix="/user")
 
 
-@router.post("/", response_model=schemas.User)
+@router.post("/create", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Annotated[Session, Depends(get_db)]):
     return user_repo.create_user(db, user=user)
+
+
+@router.get("/users")
+def get_users(db: Annotated[Session, Depends(get_db)]):
+    users = user_repo.get_users(db)
+    if not users:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No users")
+    return users
 
 
 @router.get("/{user_id}", response_model=schemas.User)

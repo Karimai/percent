@@ -19,7 +19,7 @@ app = FastAPI(
 
 app.include_router(user.router)
 app.include_router(login.router)
-# app.include_router(residence.router)
+app.include_router(residence.router)
 
 app.mount("/dynamic", StaticFiles(directory="dynamic"), name="dynamic")
 

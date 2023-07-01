@@ -21,3 +21,11 @@ def create_residence(
     db.commit()
     db.refresh(db_residence)
     return db_residence
+
+
+def get_residence(db: Session, residence_id: int) -> models.Residence:
+    return db.query(models.Residence).filter(models.Residence.id == residence_id).first()
+
+
+def get_residences(db: Session):
+    return db.query(models.Residence).all()

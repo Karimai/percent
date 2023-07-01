@@ -40,8 +40,8 @@ class UserUpdate(UserBase):
 
 class User(UserBase):
     id: int
-    residences: List[Residence] = []
-    # residences = []
+    # residences: List[Residence] = []
+    residences = []
 
     class Config:
         orm_mode = True
