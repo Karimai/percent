@@ -7,9 +7,10 @@ import os
 
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.ext.asyncio import AsyncSession
+
 # It provides a set of common functionality and conveniences for defining repositories models.
 from sqlalchemy.ext.declarative import declarative_base
+
 # The sessionmaker class is a factory class that is used to create new sessions, which are
 # used to interact with the repositories.
 from sqlalchemy.orm import sessionmaker

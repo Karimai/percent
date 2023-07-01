@@ -1,8 +1,7 @@
 from datetime import date
 
 from email_validator import validate_email
-from sqlalchemy import (Column, Date, DateTime, Enum, ForeignKey, Integer,
-                        String)
+from sqlalchemy import Column, Date, DateTime, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, validates
 
 from config.config import Base
@@ -66,8 +65,8 @@ class Residence(Base):
 #     user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
 #     address_id = Column(Integer, ForeignKey("address.id", ondelete="CASCADE"))
 
-    # user = relationship("User", back_populates="trips")
-    # address = relationship("Address", back_populates="trips")
+# user = relationship("User", back_populates="trips")
+# address = relationship("Address", back_populates="trips")
 
 # class Address(Base):
 #     __tablename__ = "address"
@@ -80,4 +79,4 @@ class Residence(Base):
 #     accomodation = Column(Enum(Accommodation), default=Accommodation.house)
 #     user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
 
-    # user = relationship("User", back_populates="addresses", cascade="all, delete")
+# user = relationship("User", back_populates="addresses", cascade="all, delete")

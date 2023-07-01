@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import date, datetime
 from enum import StrEnum
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import BaseModel, EmailStr
 
@@ -82,6 +82,7 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: Optional[str] = None
+
 
 # class TripBase(BaseModel):
 #     start_date: datetime

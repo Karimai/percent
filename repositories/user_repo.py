@@ -19,14 +19,20 @@ def handle_exceptions(func):
         except IntegrityError as e:
             error_mes = e.orig.diag.message_detail
             if "email" in error_mes:
-                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email is already exist!")
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Email is already exist!",
+                )
             if "username" in error_mes:
                 raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST, detail="User name is already exist!"
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="User name is already exist!",
                 )
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
         except ValueError as e:
-            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
+            )
 
     return wrapper
 

@@ -2,7 +2,7 @@ import os
 from typing import Annotated
 
 from dotenv import load_dotenv
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from jose import JWTError, jwt
@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 from config.config import get_db
 from models import models
 from repositories.user_repo import pwd_context
-from schemas.schemas import Login, TokenData
+from schemas.schemas import TokenData
 from utility.helper import generate_token
 
 load_dotenv()
@@ -54,7 +54,7 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         username: str = payload.get("sub")
         if not username:
             raise credential_exception
-        token_data = TokenData(username=username)
+        token_data = TokenData(username=username)  # noqa F841
 
     except JWTError:
         raise credential_exception
