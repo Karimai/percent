@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import date, datetime
 from enum import StrEnum
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel, EmailStr
 
@@ -40,8 +40,8 @@ class UserUpdate(UserBase):
 
 class User(UserBase):
     id: int
-    # residences: List[Residence] = []
-    residences = []
+    residences: List[Residence] = []
+    # residences = []
 
     class Config:
         orm_mode = True
@@ -68,6 +68,12 @@ class Residence(ResidenceBase):
 
     class Config:
         orm_mode = True
+
+
+#  for error:  File "<frozen abc>", line 123, in __subclasscheck__
+# TypeError: issubclass() arg 1 must be a class
+# for residences: List[Residence] = []
+User.update_forward_refs()
 
 
 class Login(BaseModel):
