@@ -1,9 +1,9 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
-from config.config import get_db
+from config.config import get_db, templates
 from repositories import residence_repo
 from schemas import schemas
 
@@ -25,5 +25,9 @@ def get_residence(residence_id: int, db: Annotated[Session, Depends(get_db)]):
 
 
 @router.get("/residences")
-def get_residences(db: Annotated[Session, Depends(get_db)]):
-    return residence_repo.get_residences(db)
+def get_residences(request: Request, db: Annotated[Session, Depends(get_db)]):
+    # return residence_repo.get_residences(db)
+    residences = residence_repo.get_residences(db)
+    return templates.TemplateResponse(
+        "residence.html", {"request": request, "residences": residences}
+    )

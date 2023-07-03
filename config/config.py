@@ -6,6 +6,7 @@
 import os
 
 from dotenv import load_dotenv
+from fastapi.templating import Jinja2Templates
 from sqlalchemy import create_engine
 
 # It provides a set of common functionality and conveniences for defining repositories models.
@@ -29,3 +30,6 @@ async def get_db():
             yield db
         finally:
             db.close()
+
+
+templates = Jinja2Templates(directory="templates")

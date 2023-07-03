@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from config.config import get_db
 from repositories import user_repo
-from repositories.login import get_current_user
+from routers.login import get_current_user
 from schemas import schemas
 
 router = APIRouter(tags=["Users"], prefix="/user")

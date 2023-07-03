@@ -1,5 +1,6 @@
 # this will allow you to declare the type of the db parameters and have better type checks
 # and completion in your functions.
+import logging
 import os
 
 from dotenv import load_dotenv
@@ -78,7 +79,7 @@ def create_admin_user(db: Session):
         db.commit()
         db.refresh(db_user)
     else:
-        print("Admin is already exist!")
+        logging.info("Admin is already exist!")
 
 
 def get_user(db: Session, user_id: int) -> models.User:
