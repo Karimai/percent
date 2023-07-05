@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title> Residence details </title>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<h3> Residence Details </h3>
+		<table class="table-primary">
+		  <thead>
+			<tr>
+			  <th scope="col"></th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			  <th scope="col">Country: </th>
+			  <td colspan="2">{{ residence.country }}</td>
+			</tr>
+			<tr>
+				<th scope="col">From: </th>
+				<td colspan="2">{{ residence.start_date }}</td>
+			</tr>
+			<tr>
+				<th scope="col">To:</th>
+				<td colspan="2">{{ residence.end_date }}</td>
+			</tr>
+			<tr>
+			  <th scope="col">Status: </th>
+			  <td colspan="2"> {{ residence.status }}</td>
+			</tr>
+			<tr>
+			  <th scope="col">User Email: </th>
+			  <td colspan="2"> {{ user.email }}</td>
+			</tr>
+		  </tbody>
+		</table>
+	</div>
+{% endblock %}

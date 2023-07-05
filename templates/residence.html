@@ -1,21 +1,26 @@
 {% extends "base.html" %}
 
+{% block title %}
+	<title> Residence Page </title>
+{% endblock %}
+
 {% block content %}
-  <h1>Residence</h1>
-  <table>
-    <tr>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th>Status</th>
-      <th>Country</th>
-    </tr>
-    {% for residence in residences %}
-    <tr>
-      <td>{{ residence.start_date }}</td>
-      <td>{{ residence.end_date }}</td>
-      <td>{{ residence.status }}</td>
-      <td>{{ residence.country }}</td>
-    </tr>
-    {% endfor %}
-  </table>
+	<div class="container">
+		<h3> All Residences </h3>
+		{% if msg %}
+			<div class="alert alert-success" role="alert">
+  				{{ msg }}
+			</div>
+		{% endif %}
+		{% for residence in residences %}
+			<div class="row">
+				<div class="col">
+					{% with obj=residence %}
+						{% include 'card.html' %}
+					{% endwith %}
+					<br>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
 {% endblock %}

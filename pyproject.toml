@@ -23,6 +23,7 @@ python-jose = "^3.3.0"
 python-multipart = "^0.0.6"
 pydantic = {extras = ["email"], version = "^1.10.9"}
 alembic = "^1.11.1"
+aiofiles = "^23.1.0"
 
 
 [build-system]

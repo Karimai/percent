@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
-from fastapi.templating import Jinja2Templates
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
@@ -19,11 +18,11 @@ load_dotenv()
 
 router = APIRouter(tags=["Login"], prefix="/login")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login/auth/")
-templates = Jinja2Templates(directory="templates")
 
 
 @router.post("/")
 def login(
+    response: Response,
     request: Annotated[OAuth2PasswordRequestForm, Depends()],
     db: Annotated[Session, Depends(get_db)],
 ):
@@ -45,7 +44,7 @@ def login(
     # return RedirectResponse(url="/dashboard", status_code=status.HTTP_307_TEMPORARY_REDIRECT)
     # Redirect the user to its dashboard page
     redirect_url = "/dashboard"
-    response = Response(status_code=302)
+    # response = Response(status_code=302)
     response.headers["Location"] = redirect_url
     response.headers["Authorization"] = f"Bearer {access_token}"
     response.set_cookie(key="access_token", value=access_token)
