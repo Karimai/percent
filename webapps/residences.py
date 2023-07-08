@@ -2,9 +2,11 @@ from fastapi import APIRouter, Request
 
 from config.config import templates
 
-router = APIRouter(include_in_schema=False)
+router = APIRouter()
 
 
-@router.route("/")
-async def get_residences(request: Request):
-    return templates.TemplateResponse("residence.html", {"request": request})
+@router.get("/")
+async def get_residences(request: Request, msg: str = None):
+    return templates.TemplateResponse(
+        "residence.html", {"request": request, "msg": msg}
+    )

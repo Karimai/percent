@@ -74,6 +74,7 @@ def create_admin_user(db: Session):
             username=os.getenv("ADMIN_USERNAME"),
             email=os.getenv("ADMIN_EMAIL"),
             password=hashed_password,
+            role="Admin",
         )
         db.add(db_user)
         db.commit()

@@ -1,25 +1,16 @@
-<!-- dashboard.html -->
 {% extends "base.html" %}
 
-{% block content %}
-  <!-- Your page content goes here -->
+{% block title %}
+	<title> Dashboard Page </title>
 {% endblock %}
 
-{% block login %}
-  {% if not username %}
-    <div class="login-section">
-      <h2>Login</h2>
-      <form method="POST" action="/login">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="Login">
-      </form>
-    </div>
-  {% else %}
-    <div class="login-section">
-      <p>Welcome, {{ username }}!</p>
-    </div>
-  {% endif %}
+{% block content %}
+	<div class="container">
+		<h3> User </h3>
+		{% if msg %}
+			<div class="alert alert-success" role="alert">
+  				{{ msg }}
+			</div>
+		{% endif %}
+	</div>
 {% endblock %}

@@ -6,21 +6,22 @@
 
 {% block content %}
 	<div class="container">
-		<h3> All Residences </h3>
 		{% if msg %}
 			<div class="alert alert-success" role="alert">
   				{{ msg }}
 			</div>
-		{% endif %}
-		{% for residence in residences %}
-			<div class="row">
-				<div class="col">
-					{% with obj=residence %}
-						{% include 'card.html' %}
-					{% endwith %}
-					<br>
+		{% else %}
+			<h3> All Residences </h3>
+			{% for residence in residences %}
+				<div class="row">
+					<div class="col">
+						{% with obj=residence %}
+							{% include 'card.html' %}
+						{% endwith %}
+						<br>
+					</div>
 				</div>
-			</div>
-		{% endfor %}
+			{% endfor %}
+		{% endif %}
 	</div>
 {% endblock %}

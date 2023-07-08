@@ -1,9 +1,10 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
-from config.config import get_db
+from config.config import get_db, templates
 from repositories import user_repo
 from routers.login import get_current_user
 from schemas import schemas
@@ -11,9 +12,32 @@ from schemas import schemas
 router = APIRouter(tags=["Users"], prefix="/user")
 
 
-@router.post("/create", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Annotated[Session, Depends(get_db)]):
-    return user_repo.create_user(db, user=user)
+@router.get("/register")
+def register_user(request: Request):
+    return templates.TemplateResponse("user_register.html", {"request": request})
+
+
+@router.post("/register", response_model=schemas.User)
+async def create_user(request: Request, db: Annotated[Session, Depends(get_db)]):
+    usr_form = await request.form()
+    usr = schemas.UserCreate(
+        username=usr_form.get("username"),
+        first_name=usr_form.get("name"),
+        last_name=usr_form.get("lastname"),
+        email=usr_form.get("email"),
+        password=usr_form.get("password"),
+        date_of_birth=usr_form.get("date_of_birth"),
+    )
+    try:
+        user_repo.create_user(db, usr)
+    except HTTPException as e:
+        return templates.TemplateResponse(
+            "user_register.html", {"request": request, "errors": [str(e.detail)]}
+        )
+
+    return RedirectResponse(
+        "/?msg=successfully registered", status_code=status.HTTP_302_FOUND
+    )
 
 
 @router.get("/users")

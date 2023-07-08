@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>User registration</title>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h2>User registration</h2>
+    {% if msg %}
+      {{ msg }}
+    {% endif %}
+    {% for error in errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endfor %}
+
+    <form method="post">
+      <div class="mb-3">
+        <label for="username" class="form-label">User Name</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="User Name">
+      </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+      </div>
+      <div class="mb-3">
+        <label for="lastname" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last name">
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
+      </div>
+      <div class="col-auto">
+        <label for="password" class="visually-hidden">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+      </div>
+      <div class="mb-3">
+        <br>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
