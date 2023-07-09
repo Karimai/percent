@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import date
 from enum import StrEnum
 from typing import List, Optional
 
@@ -48,8 +48,8 @@ class User(UserBase):
 
 
 class ResidenceBase(BaseModel):
-    start_date: Optional[datetime]
-    end_date: Optional[datetime]
+    start_date: Optional[date]
+    end_date: Optional[date]
     status: Optional[Status] = Status.motherland
     country: str
 

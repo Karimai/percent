@@ -1,7 +1,7 @@
 from datetime import date
 
 from email_validator import validate_email
-from sqlalchemy import Column, Date, DateTime, Enum, ForeignKey, Integer, String
+from sqlalchemy import Column, Date, Enum, ForeignKey, Integer, String, func
 from sqlalchemy.orm import relationship, validates
 
 from config.config import Base
@@ -48,8 +48,8 @@ class Residence(Base):
     __tablename__ = "residence"
 
     id = Column(Integer, primary_key=True, index=True)
-    start_date = Column(DateTime)
-    end_date = Column(DateTime)
+    start_date = Column(Date, default=func.now())
+    end_date = Column(Date, default=func.now())
     status = Column(Enum(Status), default=Status.motherland)
     country = Column(String)
     user_id = Column(Integer, ForeignKey("user.id"))
