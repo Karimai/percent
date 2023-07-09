@@ -20,15 +20,15 @@ def register_user(request: Request):
 @router.post("/register", response_model=schemas.User)
 async def create_user(request: Request, db: Annotated[Session, Depends(get_db)]):
     usr_form = await request.form()
-    usr = schemas.UserCreate(
-        username=usr_form.get("username"),
-        first_name=usr_form.get("name"),
-        last_name=usr_form.get("lastname"),
-        email=usr_form.get("email"),
-        password=usr_form.get("password"),
-        date_of_birth=usr_form.get("date_of_birth"),
-    )
     try:
+        usr = schemas.UserCreate(
+            username=usr_form.get("username"),
+            first_name=usr_form.get("name"),
+            last_name=usr_form.get("lastname"),
+            email=usr_form.get("email"),
+            password=usr_form.get("password"),
+            date_of_birth=usr_form.get("date_of_birth"),
+        )
         user_repo.create_user(db, usr)
     except HTTPException as e:
         return templates.TemplateResponse(

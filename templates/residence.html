@@ -10,6 +10,12 @@
 			<div class="alert alert-success" role="alert">
   				{{ msg }}
 			</div>
+		{% elif errors %}}
+			{% for error in errors %}}
+				<div class="alert alert-danger" role="alert">
+					{{ error }}
+  				</div>
+			{% endfor %}
 		{% else %}
 			<h3> All Residences </h3>
 			{% for residence in residences %}

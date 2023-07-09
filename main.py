@@ -1,11 +1,14 @@
-from fastapi import FastAPI
+from typing import List
+
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
-from config.config import engine
+from config.config import engine, templates
 from models import models
 from repositories.user_repo import create_admin_user
 from routers import login, residence, user
+from webapps import diagram
 from webapps import residences as web_residences
 
 app = FastAPI(
@@ -20,6 +23,7 @@ app.include_router(user.router)
 app.include_router(login.router)
 app.include_router(residence.router)
 app.include_router(web_residences.router)
+app.include_router(diagram.router)
 
 app.mount("/dynamic", StaticFiles(directory="dynamic"), name="dynamic")
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -33,3 +37,10 @@ async def startup():
         db = Session(bind=connection)
         # Create an admin user
         create_admin_user(db)
+
+
+@app.get("/")
+async def index(
+    request: Request, msg: str | None = None, errors: List[str] | None = None
+):
+    return templates.TemplateResponse("index.html", {"request": request, "msg": msg})

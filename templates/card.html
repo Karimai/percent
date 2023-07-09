@@ -1,3 +1,5 @@
+
+<div id="result" class="text-danger"></div>
 <div class="card" style="width: 18rem;">
   <div class="card-body border border-warning rounded">
     <h5 class="card-title">{{ obj.country }}</h5>
@@ -5,5 +7,22 @@
     <p class="card-text">From: {{ obj.start_date }}</p>
     <p class="card-text">To: {{ obj.end_date }}</p>
     <a href="/residence/{{obj.id}}" class="btn btn-primary">Edit ...</a>
+    <button class="btn btn-danger" onclick="delete_residence({{obj.id}})">Delete</button>
   </div>
 </div>
+
+
+{% block script %}
+  <script>
+    function delete_residence(id)
+    {
+      console.log(id)
+      fetch("/residence/delete/" + id, {method: 'DELETE'} )
+              .then(response => response.json())
+              .then(data => {
+                document.getElementById('result').innerHTML = data.message;
+                location.reload();
+              });
+    }
+  </script>
+{% endblock %}

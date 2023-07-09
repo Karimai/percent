@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>User registration</title>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h2>New Residence</h2>
+    {% if msg %}
+      <div class="alert alert-primary" role="alert">
+        {{ msg }}
+      </div>
+    {% endif %}
+    {% for error in errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endfor %}
+
+    <form method="post">
+      <div class="mb-3">
+        <label for="country" class="form-label">User Name</label>
+        <input type="text" class="form-control" id="country" name="country" placeholder="Country">
+      </div>
+      <div class="mb-3">
+        <label for="start-date" class="form-label">Name</label>
+        <input type="text" class="form-control" id="start-date" name="start-date" placeholder="dd-mm-yyyy">
+      </div>
+      <div class="mb-3">
+        <label for="end-date" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="end-date" name="end-date" placeholder="dd-mm-yyyy">
+      </div>
+      <div class="mb-3">
+        <label for="status" class="form-label">Gender</label>
+        <select class="form-select" id="status" name="status">
+          <option value="motherland">Motherland</option>
+          <option value="travel">Travel</option>
+          <option value="study">Study</option>
+          <option value="work">Work</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

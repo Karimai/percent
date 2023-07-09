@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title>Living Percent!</title>
+	<title> Home Page </title>
 {% endblock %}
 
 {% block content %}
@@ -10,9 +10,13 @@
 			<div class="alert alert-success" role="alert">
   				{{ msg }}
 			</div>
+		{% elif errors %}
+			{% for error in errors %}
+				<div class="alert alert-danger" role="alert">
+					{{ error }}
+  				</div>
+			{% endfor %}
 		{% else %}
-			<h3> Residence Diagram </h3>
 		{% endif %}
-      <img src="{{ url_for('dynamic', path='/chart.png') }}" />
 	</div>
 {% endblock %}

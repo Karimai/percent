@@ -26,5 +26,16 @@ def get_residence(db: Session, residence_id: int) -> models.Residence:
     )
 
 
-def get_residences(db: Session):
-    return db.query(models.Residence).all()
+def get_residences(db: Session, userid: int):
+    return db.query(models.Residence).filter(models.Residence.user_id == userid).all()
+
+
+def delete_residence(db: Session, residence_id: int):
+    residence = (
+        db.query(models.Residence).filter(models.Residence.id == residence_id).first()
+    )
+    if residence:
+        db.delete(residence)
+        db.commit()
+        return True
+    return False
