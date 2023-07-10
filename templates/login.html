@@ -19,13 +19,17 @@
         {% endfor %}
 
         <form method="post">
-          <div class="mb-3">
-            <label for="username" class="form-label">User Name</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="User Name">
+          <div class="row mb-3">
+            <label for="username" class="col-sm-2 col-form-label">User Name</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="username" name="username" placeholder="User Name">
+            </div>
           </div>
-          <div class="col-auto">
-            <label for="password" class="visually-hidden">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+          <div class="row mb-3">
+            <label for="password" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+            </div>
           </div>
           <div class="mb-3">
             <br>

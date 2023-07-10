@@ -27,7 +27,10 @@ def get_residence(db: Session, residence_id: int) -> models.Residence:
 
 
 def get_residences(db: Session, userid: int):
-    return db.query(models.Residence).filter(models.Residence.user_id == userid).all()
+    residences = (
+        db.query(models.Residence).filter(models.Residence.user_id == userid).all()
+    )
+    return residences
 
 
 def delete_residence(db: Session, residence_id: int):
@@ -39,3 +42,18 @@ def delete_residence(db: Session, residence_id: int):
         db.commit()
         return True
     return False
+
+
+def update_residence(
+    db: Session, residence_update: schemas.ResidenceUpdate, residence_id: int
+):
+    residence = (
+        db.query(models.Residence).filter(models.Residence.id == residence_id).first()
+    )
+    if residence:
+        for field, value in residence_update.dict(exclude_unset=True).items():
+            setattr(residence, field, value)
+        db.commit()
+        db.refresh(residence)
+        return residence
+    return None

@@ -31,7 +31,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.on_event("startup")
 async def startup():
-    # Create the tables
     with engine.begin() as connection:
         models.Base.metadata.create_all(bind=connection)
         db = Session(bind=connection)
