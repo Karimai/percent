@@ -18,16 +18,21 @@ def get_chart(
     db: Annotated[Session, Depends(get_db)],
 ):
     res_days = defaultdict(lambda: 0)
-    residences = residence_repo.get_residences(db, int(request.cookies.get("userid")))
-    for residence in residences:
-        res_days[residence.country] += (residence.end_date - residence.start_date).days
+    try:
+        residences = residence_repo.get_residences(db, int(request.cookies.get("userid")))
+        for residence in residences:
+            res_days[residence.country] += (residence.end_date - residence.start_date).days
 
-    plt.bar(res_days.keys(), res_days.values())
-    plt.xlabel("Countries")
-    plt.ylabel("Percentages")
-    plt.title("Percentage Distribution")
-    plt.savefig("dynamic/chart.png")
-    # plt.show()
-    plt.close()
+        plt.bar(res_days.keys(), res_days.values())
+        plt.xlabel("Countries")
+        plt.ylabel("Percentages")
+        plt.title("Percentage Distribution")
+        plt.savefig("dynamic/chart.png")
+        # plt.show()
+        plt.close()
 
-    return templates.TemplateResponse("image.html", {"request": request})
+        return templates.TemplateResponse("image.html", {"request": request})
+    except TypeError:
+        return templates.TemplateResponse("index.html", {"request": request, "errors": ["Login"]})
+    except Exception as e:
+        return templates.TemplateResponse("login.html", {"request": request, "errors": [str(e), type(e)]})
