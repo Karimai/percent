@@ -1,54 +1,28 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-inverse">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="{{ url_for('static', path='images/logo.jpg') }}" alt="logo" width="24" height="24">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/docs">Docs</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Residence
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/residence/residences">Residences</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="/residence/newresidence">New Residence</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="/diagram">Diagram</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Account
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/user/register">Register</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="/login">Login</a></li>
-                    </ul>
-                </li>
-            </ul>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img src="{{ url_for('static', path='images/logo.jpg') }}" alt="Percent" width="32" height="32">
+            </a>
         </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="/docs">Docs</a>
+            </li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Residence<span
+                    class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/residence/residences">Residences</a></li>
+                    <li><a href="/residence/newresidence">New Residence</a></li>
+                    <li><a href="/diagram">Diagram</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/user/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+            <li><a href="/user/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
     </div>
 </nav>
