@@ -81,3 +81,10 @@ def update_user(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
     return user_repo.get_user(db, user_id=user_id)
+
+
+@router.get("/logout")
+async def logout():
+    response = RedirectResponse(url="/")
+    response.delete_cookie("access_token")
+    return response

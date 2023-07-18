@@ -46,7 +46,6 @@ async def login(  # noqa: F811
         )
 
     access_token = generate_token(data={"username": user.username, "userid": user.id})
-    print(access_token)
     response = templates.TemplateResponse(
         "login.html", {"request": request, "msg": "Successful Login"}
     )
