@@ -1,9 +1,11 @@
+import os
 from collections import defaultdict
 from typing import Annotated
 
 import matplotlib.pyplot as plt
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
+from jose import jwt
 from sqlalchemy.orm import Session
 
 from config.config import get_db, templates
@@ -18,21 +20,28 @@ def get_chart(
     db: Annotated[Session, Depends(get_db)],
 ):
     res_days = defaultdict(lambda: 0)
+    token = request.cookies.get("access_token")
+    if not token:
+        return RedirectResponse(url="/login")
     try:
-        residences = residence_repo.get_residences(db, int(request.cookies.get("userid")))
+        payload = jwt.decode(
+            token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM")
+        )
+        userid = int(payload.get("userid"))
+        residences = residence_repo.get_residences(db, userid)
         for residence in residences:
-            res_days[residence.country] += (residence.end_date - residence.start_date).days
+            res_days[residence.country] += (
+                residence.end_date - residence.start_date
+            ).days
 
         plt.bar(res_days.keys(), res_days.values())
         plt.xlabel("Countries")
-        plt.ylabel("Percentages")
+        plt.ylabel("Days")
         plt.title("Percentage Distribution")
         plt.savefig("dynamic/chart.png")
         # plt.show()
         plt.close()
 
         return templates.TemplateResponse("image.html", {"request": request})
-    except TypeError:
-        return templates.TemplateResponse("index.html", {"request": request, "errors": ["Login"]})
-    except Exception as e:
-        return templates.TemplateResponse("login.html", {"request": request, "errors": [str(e), type(e)]})
+    except TypeError as err:
+        return RedirectResponse(url=f"/login?errors={[str(err)]}")
