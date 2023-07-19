@@ -80,7 +80,6 @@ def update_user(
     user_id: int,
     user_update: schemas.UserUpdate,
     db: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[schemas.User, Depends(get_current_user)],
 ):
     updated_user = user_repo.update_user(db, user_id=user_id, user_update=user_update)
     if not updated_user:
