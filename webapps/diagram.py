@@ -45,3 +45,5 @@ def get_chart(
         return templates.TemplateResponse("image.html", {"request": request})
     except TypeError as err:
         return RedirectResponse(url=f"/login?errors={[str(err)]}")
+    except jwt.ExpiredSignatureError as err:
+        return RedirectResponse(url=f"/login?errors={[str(err)]}")

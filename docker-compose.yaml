@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  app:
+    container_name: percent
+    build: .
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    restart: always
+
