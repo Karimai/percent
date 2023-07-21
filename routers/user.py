@@ -6,7 +6,6 @@ from sqlalchemy.orm import Session
 
 from config.config import get_db, templates
 from repositories import user_repo
-from routers.login import get_current_user
 from schemas import schemas
 
 router = APIRouter(tags=["Users"], prefix="/user")

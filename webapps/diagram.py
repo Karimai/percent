@@ -33,11 +33,6 @@ def get_chart(
             res_days[residence.country] += (
                 residence.end_date - residence.start_date
             ).days
-        # import plotly.graph_objects as go
-        #
-        # fig = go.Figure(data=[go.Bar(x=list(res_days.keys()), y=list(res_days.values()))])
-        # fig.update_layout(xaxis_title="Countries", yaxis_title="Days", title="Percentage Distribution")
-        # fig.write_image("dynamic/chart.png")
 
         plt.bar(res_days.keys(), res_days.values())
         plt.xlabel("Countries")
@@ -46,20 +41,6 @@ def get_chart(
         plt.savefig("dynamic/chart.png")
         # plt.show()
         plt.close()
-        # import pandas as pd
-        # import altair as alt
-        #
-        # # Assuming res_days is a dictionary with country names as keys and days as values
-        # df = pd.DataFrame({"Countries": list(res_days.keys()), "Days": list(res_days.values())})
-        #
-        # chart = alt.Chart(df).mark_bar().encode(
-        #     x="Countries",
-        #     y="Days",
-        # ).properties(
-        #     title="Percentage Distribution"
-        # )
-        #
-        # chart.save("dynamic/chart.png", webdriver="chrome")
 
         return templates.TemplateResponse("image.html", {"request": request})
     except TypeError as err:
