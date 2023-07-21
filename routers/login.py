@@ -21,8 +21,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login/auth/")
 
 
 @router.get("/")
-async def login(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+async def login(request: Request, msg: str = None):
+    return templates.TemplateResponse("login.html", {"request": request, "msg": msg})
 
 
 @router.post("/")

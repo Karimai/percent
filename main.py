@@ -23,7 +23,7 @@ app = FastAPI(
     contact={"Developer": "Karim Moradi", "email": "kmoradi.ai@gmail.com"},
 )
 
-ALLOWED_URLS = ["/login", "/login/"]
+ALLOWED_URLS = ["/login", "/login/", "/user/register", "/"]
 
 app.include_router(user.router)
 app.include_router(login.router)
@@ -56,15 +56,16 @@ async def access_check(request: Request, call_next):
     if request.url.path not in ALLOWED_URLS:
         token = request.cookies.get("access_token")
         if not token:
-            return RedirectResponse(url="/login")
+            return RedirectResponse(url="/login/?msg=Login please...")
         try:
-            payload = jwt.decode(
+            # just to check if the token is still valid.
+            # It will raise an exception if it is already expired.
+            jwt.decode(
                 token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM")
             )
-            if "exp" in payload:
-                if payload["exp"] < datetime.now().timestamp():
-                    RedirectResponse(url="login")
         except jwt.ExpiredSignatureError:
-            RedirectResponse(url="/login")
+            response = RedirectResponse(url="/login/")
+            response.delete_cookie("access_token")
+            return response
     response = await call_next(request)
     return response
