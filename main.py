@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 from typing import List
 
 from fastapi import FastAPI, Request
@@ -56,7 +55,7 @@ async def access_check(request: Request, call_next):
     if request.url.path not in ALLOWED_URLS:
         token = request.cookies.get("access_token")
         if not token:
-            return RedirectResponse(url="/login/?msg=Login please...")
+            return RedirectResponse(url="/login/")
         try:
             # just to check if the token is still valid.
             # It will raise an exception if it is already expired.

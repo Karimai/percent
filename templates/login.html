@@ -11,30 +11,32 @@
         <div class="alert alert-success" role="alert">
             {{ msg }}
         </div>
+    {% endif %}
+    {% if errors %}
         {% for error in errors %}
             <div class="alert alert-danger" role="alert">
                 {{ error }}
             </div>
         {% endfor %}
-
-        <form method="post">
-          <div class="row mb-3">
-            <label for="username" class="col-sm-2 col-form-label">User Name</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="username" name="username" placeholder="User Name">
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="password" class="col-sm-2 col-form-label">Password</label>
-            <div class="col-sm-10">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
-            </div>
-          </div>
-          <div class="mb-3">
-            <br>
-            <button type="submit" class="btn btn-primary">Register</button>
-          </div>
-        </form>
     {% endif %}
+
+    <form method="post">
+      <div class="row mb-3">
+        <label for="username" class="col-sm-2 col-form-label">User Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="username" name="username" placeholder="User Name">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="password" class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+        </div>
+      </div>
+      <div class="mb-3">
+        <br>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </div>
+    </form>
   </div>
 {% endblock %}
