@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    container_name: postgres_percent_db
+    container_name: postgres_db
     image: postgres:latest
     restart: always
     env_file:
