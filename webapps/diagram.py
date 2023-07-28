@@ -2,6 +2,7 @@ import os
 from collections import defaultdict
 from typing import Annotated
 
+import geopandas as gpd
 import matplotlib.pyplot as plt
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -47,3 +48,33 @@ def get_chart(
         return RedirectResponse(url=f"/login?errors={[str(err)]}")
     except jwt.ExpiredSignatureError as err:
         return RedirectResponse(url=f"/login?errors={[str(err)]}")
+
+
+@router.get("/worldmap", response_class=HTMLResponse)
+def get_world_map(
+    request: Request,
+    db: Annotated[Session, Depends(get_db)],
+):
+    # Load the world map data
+    world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
+
+    # List of countries to highlight
+    highlighted_countries = ["Iran", "Ukraine", "Netherlands", "Italy"]
+
+    # Create a new column 'color' with default color 'grey'
+    world["color"] = "grey"
+
+    # Set the color of the highlighted countries to black
+    world.loc[world["name"].isin(highlighted_countries), "color"] = "black"
+
+    # Plot the world map with customized colors
+    world.plot(
+        column="color", legend=True, cmap="Set1", linewidth=0.5, edgecolor="white"
+    )
+
+    # Show the map
+    plt.savefig("dynamic/chart.png")
+    plt.close()
+    # plt.show()
+
+    return templates.TemplateResponse("image.html", {"request": request})
