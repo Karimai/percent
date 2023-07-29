@@ -55,26 +55,39 @@ def get_world_map(
     request: Request,
     db: Annotated[Session, Depends(get_db)],
 ):
-    # Load the world map data
-    world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
+    token = request.cookies.get("access_token")
+    if not token:
+        return RedirectResponse(url="/login")
+    try:
+        payload = jwt.decode(
+            token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM")
+        )
+        userid = int(payload.get("userid"))
+        residences = residence_repo.get_residences(db, userid)
+        highlighted_countries = []
+        for residence in residences:
+            highlighted_countries.append(residence.country)
 
-    # List of countries to highlight
-    highlighted_countries = ["Iran", "Ukraine", "Netherlands", "Italy"]
+        world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
 
-    # Create a new column 'color' with default color 'grey'
-    world["color"] = "grey"
+        # Create a new column 'color' with default color 'grey'
+        world["color"] = "grey"
 
-    # Set the color of the highlighted countries to black
-    world.loc[world["name"].isin(highlighted_countries), "color"] = "black"
+        # Set the color of the highlighted countries to black
+        world.loc[world["name"].isin(highlighted_countries), "color"] = "black"
 
-    # Plot the world map with customized colors
-    world.plot(
-        column="color", legend=True, cmap="Set1", linewidth=0.5, edgecolor="white"
-    )
+        # Plot the world map with customized colors
+        world.plot(
+            column="color", legend=True, cmap="Set1", linewidth=0.5, edgecolor="white"
+        )
 
-    # Show the map
-    plt.savefig("dynamic/chart.png")
-    plt.close()
-    # plt.show()
+        # Show the map
+        plt.savefig("dynamic/chart.png")
+        plt.close()
+        # plt.show()
 
-    return templates.TemplateResponse("image.html", {"request": request})
+        return templates.TemplateResponse("image.html", {"request": request})
+    except TypeError as err:
+        return RedirectResponse(url=f"/login?errors={[str(err)]}")
+    except jwt.ExpiredSignatureError as err:
+        return RedirectResponse(url=f"/login?errors={[str(err)]}")
