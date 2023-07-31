@@ -6,7 +6,6 @@ from sqlalchemy.orm import Session
 
 from config.config import get_db, templates
 from repositories import user_repo
-from routers.login import get_current_user
 from schemas import schemas
 
 router = APIRouter(tags=["Users"], prefix="/user")
@@ -48,6 +47,13 @@ def get_users(db: Annotated[Session, Depends(get_db)]):
     return users
 
 
+@router.get("/logout")
+async def logout():
+    response = RedirectResponse(url="/")
+    response.delete_cookie("access_token")
+    return response
+
+
 @router.get("/{user_id}", response_model=schemas.User)
 def get_user(user_id: int, db: Annotated[Session, Depends(get_db)]):
     db_user = user_repo.get_user(db, user_id=user_id)
@@ -73,7 +79,6 @@ def update_user(
     user_id: int,
     user_update: schemas.UserUpdate,
     db: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[schemas.User, Depends(get_current_user)],
 ):
     updated_user = user_repo.update_user(db, user_id=user_id, user_update=user_update)
     if not updated_user:
@@ -81,10 +86,3 @@ def update_user(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
     return user_repo.get_user(db, user_id=user_id)
-
-
-@router.get("/logout")
-async def logout():
-    response = RedirectResponse(url="/")
-    response.delete_cookie("access_token")
-    return response

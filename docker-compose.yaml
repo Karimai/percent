@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    container_name: postgres_db
+    image: postgres:latest
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "54321:5432"
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+  app:
+    container_name: percent
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@db:${DB_PORT}/${DB_NAME}
+

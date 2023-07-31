@@ -12,8 +12,9 @@ def generate_token(data: dict):
     expire = datetime.now() + timedelta(
         minutes=float(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
     )
-    to_encode.update({"exp": expire})
+    to_encode.update({"exp": expire.timestamp()})
     encoded_jwt = jwt.encode(
         to_encode, os.getenv("SECRET_KEY"), algorithm=os.getenv("ALGORITHM")
     )
+
     return encoded_jwt

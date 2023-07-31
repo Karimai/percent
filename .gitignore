@@ -16,6 +16,8 @@ downloads/
 eggs/
 .idea/
 .eggs/
+docker.md
+gcloud.md
 lib/
 lib64/
 parts/
