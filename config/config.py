@@ -31,11 +31,9 @@ if not DATABASE_URL:
         # f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"
 
         # DATABASE_URL = f"postgresql+psycopg2://postgres:postgres@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"
-        # DATABASE_URL = f"postgresql+psycopg2://postgres:postgres@/percentdb?host=/cloudsql/percentpassed:us-central1:percent"
+        DATABASE_URL = f"postgresql+psycopg2://postgres:postgres@/percentdb?host=/cloudsql/percentpassed:us-central1:percent"
         # sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server on socket
         # "/cloudsql/percentpassed:us-central1:percent/.s.PGSQL.5432" failed: No such file or directory
-
-        DATABASE_URL = 'postgresql+pg8000://postgres:postgres@/percentdb?unix_sock=/cloudsql/percentpassed:us-central1:percent'
     else:
         DB_HOST = os.getenv("DB_HOST", "localhost")
         DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
