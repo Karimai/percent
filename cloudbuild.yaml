@@ -22,16 +22,4 @@ steps:
       - 'us-central1'
       - '--update-secrets'
       - 'DB_USER=db_user:latest,DB_PASS=db_pass:latest,DB_PORT=db_port:latest,SECRET_KEY=secret_key:latest,ALGORITHM=algorithm:latest,ACCESS_TOKEN_EXPIRE_MINUTES=access_token_expire_minutes:latest,ADMIN_USERNAME=admin_username:latest,ADMIN_PASS=admin_pass:latest,ADMIN_EMAIL=admin_email:latest,DB_CLOUD=db_cloud:latest'
-#      - |
-#      - DB_USER=db_user:latest,
-#      - DB_PASS=bd_pass:latest,
-#      - DB_USER=db_user:latest,
-#      - DB_PORT=db_port:latest,
-#      - SECRET_KEY=secret_key:latest,
-#      - ALGORITHM=algorithm:latest,
-#      - ACCESS_TOKEN_EXPIRE_MINUTES=access_token_expire_minutes:latest,
-#      - ADMIN_USERNAME=admin_username:latest,
-#      - ADMIN_PASS=admin_pass:latest,
-#      - ADMIN_EMAIL=admin_email:latest,
-#      - DB_CLOUD=db_cloud:latest
       # gcloud run deploy SERVICE --image IMAGE_URL --update-secrets=ENV_VAR_NAME=SECRET_NAME:VERSION
