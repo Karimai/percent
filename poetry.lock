@@ -51,6 +51,17 @@ test = ["anyio[trio]", "coverage[toml] (>=4.5)", "hypothesis (>=4.0)", "mock (>=
 trio = ["trio (<0.22)"]
 
 [[package]]
+name = "asn1crypto"
+version = "1.5.1"
+description = "Fast ASN.1 parser and serializer with definitions for private keys, public keys, certificates, CRL, OCSP, CMS, PKCS#3, PKCS#7, PKCS#8, PKCS#12, PKCS#5, X.509 and TSP"
+optional = false
+python-versions = "*"
+files = [
+    {file = "asn1crypto-1.5.1-py2.py3-none-any.whl", hash = "sha256:db4e40728b728508912cbb3d44f19ce188f218e9eba635821bb4b68564f8fd67"},
+    {file = "asn1crypto-1.5.1.tar.gz", hash = "sha256:13ae38502be632115abf8a24cbe5f4da52e3b5231990aff31123c805306ccb9c"},
+]
+
+[[package]]
 name = "asyncpg"
 version = "0.28.0"
 description = "An asyncio PostgreSQL driver"
@@ -1068,6 +1079,21 @@ files = [
 ]
 
 [[package]]
+name = "pg8000"
+version = "1.30.1"
+description = "PostgreSQL interface library"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pg8000-1.30.1-py3-none-any.whl", hash = "sha256:4700e34a01d16c41c923982ff78930e85bbd819aea875f9bc17044eb756125a9"},
+    {file = "pg8000-1.30.1.tar.gz", hash = "sha256:c04280e66a1ccfb5166db5c164164c2e1b8f62afaedffd211451a5329ae84a29"},
+]
+
+[package.dependencies]
+python-dateutil = ">=2.8.2"
+scramp = ">=1.4.3"
+
+[[package]]
 name = "pillow"
 version = "10.0.0"
 description = "Python Imaging Library (Fork)"
@@ -1477,6 +1503,20 @@ files = [
 pyasn1 = ">=0.1.3"
 
 [[package]]
+name = "scramp"
+version = "1.4.4"
+description = "An implementation of the SCRAM protocol."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "scramp-1.4.4-py3-none-any.whl", hash = "sha256:b142312df7c2977241d951318b7ee923d6b7a4f75ba0f05b621ece1ed616faa3"},
+    {file = "scramp-1.4.4.tar.gz", hash = "sha256:b7022a140040f33cf863ab2657917ed05287a807b917950489b89b9f685d59bc"},
+]
+
+[package.dependencies]
+asn1crypto = ">=1.5.1"
+
+[[package]]
 name = "shapely"
 version = "2.0.1"
 description = "Manipulation and analysis of geometric objects"
@@ -1697,4 +1737,4 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "b024bcfcd39d5ae4bcb33efad36774f9458a0ea36dcd166a3e36b86b02210212"
+content-hash = "bb68cd9bf713ad2a916136b5cb3af09e08c93ffe7b6c6d19137f5769a114194a"
