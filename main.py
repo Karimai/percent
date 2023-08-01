@@ -30,11 +30,11 @@ app.include_router(residence.router)
 app.include_router(web_residences.router)
 app.include_router(diagram.router)
 
-script_dir = os.path.dirname(__file__)
-st_abs_file_path = os.path.join(script_dir, "static/")
-dy_abs_file_path = os.path.join(script_dir, "dynamic/")
-app.mount("/dynamic", StaticFiles(directory=dy_abs_file_path), name="dynamic")
-app.mount("/static", StaticFiles(directory=st_abs_file_path), name="static")
+# script_dir = os.path.dirname(__file__)
+# st_abs_file_path = os.path.join(script_dir, "static/")
+# dy_abs_file_path = os.path.join(script_dir, "dynamic/")
+# app.mount("/dynamic", StaticFiles(directory=dy_abs_file_path), name="dynamic")
+# app.mount("/static", StaticFiles(directory=st_abs_file_path), name="static")
 
 
 @app.on_event("startup")
