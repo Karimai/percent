@@ -2,15 +2,14 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
-      - '--no-cache'
       - '-t'
-      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$COMMIT_SHA'
+      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
       - '.'
 
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$COMMIT_SHA'
+      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
@@ -18,9 +17,7 @@ steps:
       - 'deploy'
       - 'percent-app'
       - '--image'
-      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$COMMIT_SHA'
-      - '--region'
-      - 'us-central1'
+      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
       - '--update-secrets'
       - |
       - DB_USER=db_user:latest,
