@@ -2,6 +2,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
+      - '--no-cache'
       - '-t'
       - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$COMMIT_SHA'
       - '.'
@@ -10,17 +11,6 @@ steps:
     args:
       - 'push'
       - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$COMMIT_SHA'
-
-  # Load environment variables from .env file and set them
-  - name: 'gcr.io/cloud-builders/git'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        set -a
-        source .env
-        set +a
-        echo "Environment variables loaded from .env file."
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
