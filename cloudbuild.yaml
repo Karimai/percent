@@ -3,13 +3,13 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
+      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:SHORT_SHA'
       - '.'
 
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
+      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:SHORT_SHA'
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
@@ -17,7 +17,7 @@ steps:
       - 'deploy'
       - 'percent-app'
       - '--image'
-      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
+      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:SHORT_SHA'
       - '--region'
       - 'us-central1'
       - '--update-secrets'
