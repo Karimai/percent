@@ -1,25 +1,32 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'build'
-      - '-t'
-      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:SHORT_SHA'
-      - '.'
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'push'
-      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:SHORT_SHA'
-
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - 'run'
       - 'deploy'
       - 'percent-app'
-      - '--image'
-      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:SHORT_SHA'
-      - '--region'
-      - 'us-central1'
-      - '--update-secrets'
-      - 'DB_USER=db_user:latest,DB_PASS=db_pass:latest,DB_PORT=db_port:latest,SECRET_KEY=secret_key:latest,ALGORITHM=algorithm:latest,ACCESS_TOKEN_EXPIRE_MINUTES=access_token_expire_minutes:latest,ADMIN_USERNAME=admin_username:latest,ADMIN_PASS=admin_pass:latest,ADMIN_EMAIL=admin_email:latest,DB_CLOUD=db_cloud:latest'
+      - '--source'
+      - '.'
+#  - name: 'gcr.io/cloud-builders/docker'
+#    args:
+#      - 'build'
+#      - '-t'
+#      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:SHORT_SHA'
+#      - '.'
+#
+#  - name: 'gcr.io/cloud-builders/docker'
+#    args:
+#      - 'push'
+#      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:SHORT_SHA'
+#
+#  - name: 'gcr.io/cloud-builders/gcloud'
+#    args:
+#      - 'run'
+#      - 'deploy'
+#      - 'percent-app'
+#      - '--image'
+#      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:SHORT_SHA'
+#      - '--region'
+#      - 'us-central1'
+#      - '--update-secrets'
+#      - 'DB_USER=db_user:latest,DB_PASS=db_pass:latest,DB_PORT=db_port:latest,SECRET_KEY=secret_key:latest,ALGORITHM=algorithm:latest,ACCESS_TOKEN_EXPIRE_MINUTES=access_token_expire_minutes:latest,ADMIN_USERNAME=admin_username:latest,ADMIN_PASS=admin_pass:latest,ADMIN_EMAIL=admin_email:latest,DB_CLOUD=db_cloud:latest'
       # gcloud run deploy SERVICE --image IMAGE_URL --update-secrets=ENV_VAR_NAME=SECRET_NAME:VERSION
