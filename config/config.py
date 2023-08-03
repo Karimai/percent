@@ -31,7 +31,8 @@ if not DATABASE_URL:
         # f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"
 
         # DATABASE_URL = f"postgresql+psycopg2://postgres:postgres@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"
-        DATABASE_URL = f"postgresql+psycopg2://postgres:postgres@/percentdb?host=/cloudsql/percentpassed:us-central1:percent"
+        # DATABASE_URL = f"postgresql+psycopg2://postgres:postgres@/percentdb?host=/cloudsql/percentpassed:us-central1:percent"
+        DATABASE_URL = f"postgresql://postgres:postgres@/percentdb?host=/cloudsql/percentpassed:us-central1:percent"
         #
         # Connect with TCP public:
         # postgresql+pg8000://<db_user>:<db_pass>@<db_host>:<db_port>/<db_name>
