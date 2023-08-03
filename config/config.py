@@ -31,11 +31,11 @@ if not DATABASE_URL:
         # f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"
 
         # DATABASE_URL = f"postgresql+psycopg2://postgres:postgres@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"
-        # DATABASE_URL = f"postgresql+psycopg2://postgres:postgres@/percentdb?host=/cloudsql/percentpassed:us-central1:percent"
+        DATABASE_URL = f"postgresql+psycopg2://postgres:postgres@/percentdb?host=/cloudsql/percentpassed:us-central1:percent"
         #
         # Connect with TCP public:
         # postgresql+pg8000://<db_user>:<db_pass>@<db_host>:<db_port>/<db_name>
-        DATABASE_URL = f"postgresql://postgres:postgres@34.135.215.204:5432/percentdb"
+        # DATABASE_URL = f"postgresql://postgres:postgres@34.135.215.204:5432/percentdb"
         # sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server on socket
         # "/cloudsql/percentpassed:us-central1:percent/.s.PGSQL.5432" failed: No such file or directory
     else:
