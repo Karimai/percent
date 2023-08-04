@@ -1,19 +1,19 @@
 steps:
   # Step 1: Set up Cloud SQL proxy
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - 'gcloud auth configure-docker && gcloud components install cloud_sql_proxy'
-    timeout: '1200s'
-
-  # Step 2: Run the Cloud SQL proxy
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - 'gcloud sql instances describe percentpassed --format="value(connectionName)" | xargs -I {} cloud_sql_proxy -instances={}=tcp:5432 &'
-    timeout: '1200s'
+#  - name: 'gcr.io/cloud-builders/gcloud'
+#    entrypoint: 'bash'
+#    args:
+#      - '-c'
+#      - 'gcloud auth configure-docker && gcloud components install cloud_sql_proxy'
+#    timeout: '1200s'
+#
+#  # Step 2: Run the Cloud SQL proxy
+#  - name: 'gcr.io/cloud-builders/gcloud'
+#    entrypoint: 'bash'
+#    args:
+#      - '-c'
+#      - 'gcloud sql instances describe percentpassed --format="value(connectionName)" | xargs -I {} cloud_sql_proxy -instances={}=tcp:5432 &'
+#    timeout: '1200s'
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
