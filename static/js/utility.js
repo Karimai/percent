@@ -24,19 +24,36 @@ $(document).ready(function () {
         }
     });
 
-    // Fetch countries and populate the select element
-    const selectDrop = document.querySelector('#country');
-    fetch('https://restcountries.com/v2/all') // Use the correct API endpoint
-      .then(res => res.json())
-      .then(data => {
-        let output = '<option value="" disabled selected>Select a country</option>';
-        data.forEach(country => {
-          output += `<option value="${country.name}" ${selectedCountry === country.name ? 'selected' : ''}>${country.name}</option>`;
-        })
-        selectDrop.innerHTML = output;
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
 });
+
+// Assuming your CSV file is named "country.csv" and is in the same directory as this HTML file.
+const csvFilePath = '../static/countries.csv';
+async function fetchCSVFile(filePath) {
+    try {
+        const response = await fetch(filePath);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch ${filePath}. Status: ${response.status}`);
+        }
+        return await response.text();
+    } catch (error) {
+        console.error('Error fetching CSV file:', error);
+        return null;
+    }
+}
+
+const selectElement = document.getElementById('country');
+async function populateCountryDropdown() {
+    const csvData = await fetchCSVFile(csvFilePath);
+
+    if (!csvData) {
+        selectElement.innerHTML = '<option disabled selected>Select a country</option>';
+        return;
+    }
+
+    const countries = csvData.split('\n').map(country => country.trim());
+
+    selectElement.innerHTML = countries.map(country => `<option value="${country}">${country}</option>`).join('');
+}
+
+document.addEventListener('DOMContentLoaded', populateCountryDropdown);
+
