@@ -55,5 +55,40 @@ async function populateCountryDropdown() {
     selectElement.innerHTML = countries.map(country => `<option value="${country}">${country}</option>`).join('');
 }
 
+function fillCitiesForCountry(country_code) {
+
+    const citySelect = document.getElementById('city');
+    citySelect.innerHTML = '<option value="">Select City</option>';
+
+    const overpassApiUrl = 'https://overpass-api.de/api/interpreter';
+    const query = `[out:json];
+                area["ISO3166-1"="${country_code}"];
+                node["place"="city"](area);
+                out;`;
+
+    axios.post(overpassApiUrl, query)
+        .then(response => {
+            const cities = response.data.elements;
+
+            cities.forEach(city => {
+                const cityName = city.tags['name:en'] || city.tags.name;
+                const option = document.createElement('option');
+                option.value = cityName;
+                option.textContent = cityName;
+                citySelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching cities:', error);
+        });
+
+}
+
+selectElement.addEventListener('change', function () {
+    const selectedCountry = selectElement.value;
+    country_code = selectedCountry.split(",")[1];
+    fillCitiesForCountry(country_code);
+});
+
 document.addEventListener('DOMContentLoaded', populateCountryDropdown);
 
