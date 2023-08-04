@@ -23,4 +23,20 @@ $(document).ready(function () {
             });
         }
     });
+
+    // Fetch countries and populate the select element
+    const selectDrop = document.querySelector('#country');
+    fetch('https://restcountries.com/v2/all') // Use the correct API endpoint
+      .then(res => res.json())
+      .then(data => {
+        let output = '<option value="" disabled selected>Select a country</option>';
+        data.forEach(country => {
+          output += `<option value="${country.name}" ${selectedCountry === country.name ? 'selected' : ''}>${country.name}</option>`;
+        })
+        selectDrop.innerHTML = output;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
 });
