@@ -52,32 +52,9 @@ class Residence(Base):
     end_date = Column(Date, default=func.now())
     status = Column(Enum(Status), default=Status.motherland)
     country = Column(String)
+    city = Column(String)
     user_id = Column(Integer, ForeignKey("user.id"))
 
     user = relationship("User", back_populates="residences")
 
 
-# class Trip(Base):
-#     __tablename__ = "trip"
-#
-#     id = Column(Integer, primary_key=True, index=True)
-#     start_date = Column(DateTime, nullable=False)
-#     end_date = Column(DateTime, nullable=False)
-#     user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
-#     address_id = Column(Integer, ForeignKey("address.id", ondelete="CASCADE"))
-
-# user = relationship("User", back_populates="trips")
-# address = relationship("Address", back_populates="trips")
-
-# class Address(Base):
-#     __tablename__ = "address"
-#
-#     id = Column(Integer, primary_key=True, index=True)
-#     country = Column(String, nullable=False)
-#     city = Column(String)
-#     street = Column(String)
-#     postal_code = Column(String)
-#     accomodation = Column(Enum(Accommodation), default=Accommodation.house)
-#     user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
-
-# user = relationship("User", back_populates="addresses", cascade="all, delete")
