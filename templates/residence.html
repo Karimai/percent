@@ -1,33 +1,65 @@
 {% extends "base.html" %}
 
 {% block title %}
-	<title> Residence Page </title>
+<title> Residence Page </title>
 {% endblock %}
 
 {% block content %}
-	<div class="container">
-		{% if msg %}
-			<div class="alert alert-success" role="alert">
-  				{{ msg }}
-			</div>
-		{% elif errors %}}
-			{% for error in errors %}}
-				<div class="alert alert-danger" role="alert">
-					{{ error }}
-  				</div>
-			{% endfor %}
-		{% else %}
-			<h3> All Residence(s) </h3>
-			{% for residence in residences %}
-				<div class="row">
-					<div class="col">
-						{% with obj=residence %}
-							{% include 'card.html' %}
-						{% endwith %}
-						<br>
-					</div>
-				</div>
-			{% endfor %}
-		{% endif %}
-	</div>
+<div class="container">
+    {% if msg %}
+    <div class="alert alert-success" role="alert">
+        {{ msg }}
+    </div>
+    {% elif errors %}}
+    {% for error in errors %}}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    {% else %}
+    <h3> All Residence(s) </h3>
+    <div id="result" class="text-danger"></div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Country</th>
+            <th>City</th>
+            <th>Reason</th>
+            <th>From</th>
+            <th>To</th>
+            <th></th> <!-- Empty header for edit button column -->
+        </tr>
+        </thead>
+        <tbody>
+        {% for residence in residences %}
+        <tr>
+            <td>{{ residence.country }}</td>
+            <td>{{ residence.city }}</td>
+            <td>{{ residence.status }}</td>
+            <td>{{ residence.start_date }}</td>
+            <td>{{ residence.end_date }}</td>
+            <td>
+                <a href="/residence/{{ residence.id }}" class="btn btn-primary">Edit</a>
+                <button class="btn btn-danger" onclick="delete_residence({{ residence.id }})">Delete</button>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    function delete_residence(id) {
+        console.log(id)
+        fetch("/residence/delete/" + id, {method: 'DELETE'})
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = data.message;
+                location.reload();
+            });
+    }
+</script>
 {% endblock %}
