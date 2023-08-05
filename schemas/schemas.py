@@ -52,6 +52,7 @@ class ResidenceBase(BaseModel):
     end_date: Optional[date]
     status: Optional[Status] = Status.motherland
     country: str
+    city: str
 
 
 class ResidenceCreate(ResidenceBase):
@@ -89,49 +90,3 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: Optional[str] = None
 
-
-# class TripBase(BaseModel):
-#     start_date: datetime
-#     end_date: datetime
-#     user_id: int
-#     address_id: int
-#
-#
-# class TripCreate(TripBase):
-#     pass
-#
-#
-# class TripUpdate(TripBase):
-#     pass
-#
-#
-# class Trip(TripBase):
-#     id: int
-#     user: User
-#     address: Address
-#
-#     class Config:
-#         orm_mode: True
-# class AddressBase(BaseModel):
-#     country: str
-#     city: Optional[str]
-#     street: Optional[str]
-#     postal_code: Optional[str]
-#     # accommodation: Optional[Accommodation] = Accommodation.house
-#
-#
-# class AddressCreate(AddressBase):
-#     pass
-#
-#
-# class AddressUpdate(AddressBase):
-#     pass
-#
-#
-# class Address(AddressBase):
-#     id: int
-#
-#     class Config:
-#         # The orm_mode will tell the Pydantic model to read the data even if it is not
-#         # a dict, but an ORM model (or any other arbitrary object with attributes).
-#         orm_mode = True
