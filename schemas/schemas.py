@@ -52,6 +52,7 @@ class ResidenceBase(BaseModel):
     end_date: Optional[date]
     status: Optional[Status] = Status.motherland
     country: str
+    city: str
 
 
 class ResidenceCreate(ResidenceBase):

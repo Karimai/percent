@@ -52,6 +52,7 @@ class Residence(Base):
     end_date = Column(Date, default=func.now())
     status = Column(Enum(Status), default=Status.motherland)
     country = Column(String)
+    city = Column(String)
     user_id = Column(Integer, ForeignKey("user.id"))
 
     user = relationship("User", back_populates="residences")
