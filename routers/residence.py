@@ -76,6 +76,7 @@ async def save_residence(request: Request, db: Annotated[Session, Depends(get_db
             end_date=datetime.strptime(form.get("end-date"), Date_format),
             status=form.get("status").capitalize(),
             country=form.get("country"),
+            city=form.get("city"),
         )
         residence_repo.create_residence(db, residence=residence, user_id=userid)
         return RedirectResponse(
@@ -112,6 +113,7 @@ async def set_residence(request: Request, db: Annotated[Session, Depends(get_db)
             end_date=datetime.strptime(form.get("end-date"), Date_format),
             status=form.get("status").capitalize(),
             country=form.get("country"),
+            city=form.get("city"),
         )
         residence_repo.update_residence(
             db, residence_update=residence, residence_id=residence_id
