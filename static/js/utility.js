@@ -52,11 +52,21 @@ async function populateCountryDropdown() {
 
     const countries = csvData.split('\n').map(country => country.trim());
 
-    selectElement.innerHTML = countries.map(country => `<option value="${country}">${country}</option>`).join('');
+    selectElement.innerHTML = countries.map(country => {
+        if (typeof selectedCountry == 'undefined') {
+            return `<option value="${country}">${country}</option>`;
+        } else {
+            const isSelected = country === selectedCountry ? 'selected' : '';
+            return `<option value="${country}" ${isSelected}>${country}</option>`;
+        }
+    }).join('');
+    if (typeof selectedCity != 'undefined' && typeof selectedCountry != 'undefined') {
+        console.log("call fillCities");
+        fillCitiesForCountry(selectedCountry.split(",")[1]);
+    }
 }
 
 function fillCitiesForCountry(country_code) {
-
     const citySelect = document.getElementById('city');
     citySelect.innerHTML = '<option value="">Select City</option>';
 
@@ -75,6 +85,9 @@ function fillCitiesForCountry(country_code) {
                 const option = document.createElement('option');
                 option.value = cityName;
                 option.textContent = cityName;
+                if (typeof selectedCity != 'undefined' && cityName === selectedCity) {
+                    option.selected = true;
+                }
                 citySelect.appendChild(option);
             });
         })
