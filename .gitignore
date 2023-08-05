@@ -8,6 +8,8 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+static/js/.Rhistory
+dynamic/chart.png
 build/
 develop-eggs/
 dist/

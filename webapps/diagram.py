@@ -66,7 +66,7 @@ def get_world_map(
         residences = residence_repo.get_residences(db, userid)
         highlighted_countries = []
         for residence in residences:
-            highlighted_countries.append(residence.country)
+            highlighted_countries.append(residence.country.split(",")[0])
 
         world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
 
