@@ -31,7 +31,7 @@ def get_chart(
         userid = int(payload.get("userid"))
         residences = residence_repo.get_residences(db, userid)
         for residence in residences:
-            res_days[residence.country] += (
+            res_days[residence.country.split(",")[1]] += (
                 residence.end_date - residence.start_date
             ).days
 
@@ -74,7 +74,7 @@ def get_world_map(
         world["color"] = "grey"
 
         # Set the color of the highlighted countries to black
-        world.loc[world["name"].isin(highlighted_countries), "color"] = "black"
+        world.loc[world["name"].isin(highlighted_countries), "color"] = "Visited"
 
         # Plot the world map with customized colors
         world.plot(
