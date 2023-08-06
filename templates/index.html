@@ -1,22 +1,85 @@
 {% extends "base.html" %}
 
 {% block title %}
-	<title> Home Page </title>
+<title> Past Percent </title>
 {% endblock %}
 
 {% block content %}
-	<div class="container">
-		{% if msg %}
-			<div class="alert alert-success" role="alert">
-  				{{ msg }}
-			</div>
-		{% elif errors %}
-			{% for error in errors %}
-				<div class="alert alert-danger" role="alert">
-					{{ error }}
-  				</div>
-			{% endfor %}
-		{% else %}
-		{% endif %}
-	</div>
+<div class="container">
+    {% if msg %}
+    <div class="alert alert-success" role="alert">
+        {{ msg }}
+    </div>
+    {% elif errors %}
+    {% for error in errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <h1>Welcome to the Past Percent App User Manual</h1>
+    <p>
+        This app allows you to record your past residences and visualize the percentage of time you lived in each country with the help of a bar chart.
+    </p>
+    <h2>Getting Started</h2>
+    <p>
+        To get started, follow these steps:
+    </p>
+    <ol>
+        <li>Open Past Percent in your browser.</li>
+        <li>Sign up and login.</li>
+        <li>Once you are logged in, you are able to add residences in the residence menu.</li>
+    </ol>
+
+    <h2>Recording Your Past Residences</h2>
+    <p>
+        In the Residence menu, you can add your past residences one by one by clicking on the "New Residence" button. Fill in
+        the required information for each residence:
+    </p>
+    <ul>
+        <li><b>Country:</b> Choose the name of the country where you lived.</li>
+        <li><b>City:</b> Enter the name of the city where you lived.</li>
+        <li><b>Start Date:</b> Enter the date you moved to that country (format: dd-mm-yyyy).</li>
+        <li><b>End Date:</b> Enter the date you left that country (format: dd-mm-yyyy).</li>
+        <li><b>Reason:</b> Specify the reason for living in that country (e.g., Motherland, Travel, Work, Study, etc.).</li>
+    </ul>
+    <p>
+        After entering the details, click on the "Submit" button to record the residence. You can repeat this process to
+        add multiple past residences.
+    </p>
+
+    <h2>Viewing the Past Residences</h2>
+    <p>
+        To view your recorded past residences, navigate to the "Residences" menu and click on the Residences submenu.
+        Here, you will see a list of all the residences you have added, displaying the country name, start date, end
+        date, and the reason for living in that country. You can edit a residence by clicking on the Edit button.
+        A redidence can be deleted by clicking on the Delete button.
+    </p>
+
+    <h2>Generating the Bar Chart</h2>
+    <p>
+        To see the percentage of time you lived in each country represented as a bar chart, click on the Diagram submenu on the "Residence" menu.
+        You can see the world map where shows all countries that you ever resident in Red, others stay grey.
+
+    </p>
+
+    <h2>Example</h2>
+    <p>
+        Here's an example of how your recorded residences might look:
+    </p>
+    <img src="/static/images/bar_chart.png" alt="Bar Chart Example" width="400">
+    <img src="/static/images/world_map.png" alt="Bar Chart Example" width="400">
+
+    <h2>Support and Feedback</h2>
+    <p>
+        If you encounter any issues while using the Past Percent app or have any feedback to share, please feel free to
+        reach out to our support team at kmoradi dot ai at gmail dot com.
+    </p>
+
+    <h2>Enjoy Using Past Percent!</h2>
+    <p>
+        We hope you find the Past Percent app useful in visualizing your past residences. Start recording your
+        residences and see how your life journey has unfolded across different countries!
+    </p>
+</div>
 {% endblock %}
