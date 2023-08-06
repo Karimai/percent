@@ -47,9 +47,15 @@ async def login(  # noqa: F811
 
     access_token = generate_token(data={"username": user.username, "userid": user.id})
     response = templates.TemplateResponse(
-        "login.html", {"request": request, "msg": "Successful Login"}
+        "/index.html", {"request": request, "msg": "Successful Login"}
     )
-    response.set_cookie(key="access_token", value=access_token)
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        secure=True,
+        samesite="Strict",
+    )
     return response
 
 

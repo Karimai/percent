@@ -53,7 +53,6 @@
 {% block script %}
 <script>
     function delete_residence(id) {
-        console.log(id)
         fetch("/residence/delete/" + id, {method: 'DELETE'})
             .then(response => response.json())
             .then(data => {
