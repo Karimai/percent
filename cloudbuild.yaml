@@ -1,4 +1,14 @@
 steps:
+  # Build the container image for test
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-f', 'Dockerfile', '-t', 'test_runner', '.', '--target', 'development']
+    env:
+      - "DOCKER_BUILDKIT=1"
+
+  # test
+  - name: 'test_runner'
+    args: ['python', '-m', 'pytest']
+
   # Install Poetry within the Docker container
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
