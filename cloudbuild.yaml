@@ -1,5 +1,15 @@
-#substitutions:
-#  port: '8000'
+substitutions:
+  _DB_USER: projects/292927587123/secrets/db_user/versions/latest
+  _DB_PASS: projects/292927587123/secrets/db_pass/versions/latest
+  _DB_PORT: projects/292927587123/secrets/db_port/versions/latest
+  _DB_NAME: projects/292927587123/secrets/db_name/versions/latest
+  _SECRET_KEY: projects/292927587123/secrets/secret_key/versions/latest
+  _ALGORITHM: projects/292927587123/secrets/algorithm/versions/latest
+  _ACCESS_TOKEN_EXPIRE_MINUTES: projects/292927587123/secrets/access_token_expire_minutes/versions/latest
+  _ADMIN_USERNAME: projects/292927587123/secrets/admin_username/versions/latest
+  _ADMIN_PASS: projects/292927587123/secrets/admin_pass/versions/latest
+  _ADMIN_EMAIL: projects/292927587123/secrets/admin_email/versions/latest
+  _DB_CLOUD: projects/292927587123/secrets/db_cloud/versions/latest
 
 steps:
   # Build the container image for test
@@ -11,17 +21,22 @@ steps:
   # test
   - name: 'test_runner'
     env:
-      - 'DB_USER=db_user:latest,DB_PASS=db_pass:latest,DB_PORT=db_port:latest,DB_NAME=db_name:latest,SECRET_KEY=secret_key:latest,ALGORITHM=algorithm:latest,ACCESS_TOKEN_EXPIRE_MINUTES=access_token_expire_minutes:latest,ADMIN_USERNAME=admin_username:latest,ADMIN_PASS=admin_pass:latest,ADMIN_EMAIL=admin_email:latest,DB_CLOUD=db_cloud:latest'
+      - 'DB_USER=$_DB_USER'
+      - 'DB_PASS=$_DB_PASS'
+      - 'DB_PORT=$_DB_PORT'
+      - 'DB_NAME=$_DB_NAME'
+      - 'SECRET_KEY=$_SECRET_KEY'
+      - 'ALGORITHM=$_ALGORITHM'
+      - 'ACCESS_TOKEN_EXPIRE_MINUTES=$_ACCESS_TOKEN_EXPIRE_MINUTES'
+      - 'ADMIN_USERNAME=$_ADMIN_USERNAME'
+      - 'ADMIN_PASS=$_ADMIN_PASS'
+      - 'ADMIN_EMAIL=$_ADMIN_EMAIL'
+      - 'DB_CLOUD=$_DB_CLOUD'
+
     args:
       - 'python'
       - '-m'
       - 'pytest'
-#      - '--update-secrets'
-#      - 'DB_USER=db_user:latest,DB_PASS=db_pass:latest,DB_PORT=db_port:latest,DB_NAME=db_name:latest,SECRET_KEY=secret_key:latest,ALGORITHM=algorithm:latest,ACCESS_TOKEN_EXPIRE_MINUTES=access_token_expire_minutes:latest,ADMIN_USERNAME=admin_username:latest,ADMIN_PASS=admin_pass:latest,ADMIN_EMAIL=admin_email:latest,DB_CLOUD=db_cloud:latest'
-#      - '--add-cloudsql-instances'
-#      - 'percentpassed:us-central1:percent'
-#      - '--port'
-#      - '8000'
 
 
   # Install Poetry within the Docker container
