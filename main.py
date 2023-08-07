@@ -1,5 +1,6 @@
 import os
 from typing import List
+from pathlib import Path
 
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
@@ -30,8 +31,11 @@ app.include_router(residence.router)
 app.include_router(web_residences.router)
 app.include_router(diagram.router)
 
-app.mount("/dynamic", StaticFiles(directory="dynamic"), name="dynamic")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+dynamic_dir = Path(__file__).resolve().parent / 'dynamic'
+static_dir = Path(__file__).resolve().parent / 'static'
+
+app.mount("/dynamic", StaticFiles(directory=str(dynamic_dir)), name="dynamic")
+app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
 
 @app.on_event("startup")
