@@ -38,19 +38,6 @@ steps:
       - '-m'
       - 'pytest'
 
-
-  # Install Poetry within the Docker container
-  - name: 'gcr.io/cloud-builders/docker'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - 'pip install poetry && poetry install'
-
-  # Install dependencies using Poetry
-  - name: python
-    entrypoint: poetry
-    args: ["install", "--no-interaction", "--no-ansi"]
-
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
