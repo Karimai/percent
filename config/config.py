@@ -8,6 +8,7 @@ import os
 from dotenv import load_dotenv
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import create_engine
+from pathlib import Path
 
 # It provides a set of common functionality and conveniences for defining repositories models.
 from sqlalchemy.ext.declarative import declarative_base
@@ -51,5 +52,5 @@ async def get_db():
         finally:
             db.close()
 
-
-templates = Jinja2Templates(directory="templates")
+templates_dir = Path(__file__).resolve().parent.parent / 'templates'
+templates = Jinja2Templates(directory=str(templates_dir))
