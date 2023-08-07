@@ -6,4 +6,4 @@ client = TestClient(app)
 
 def test_read_index():
     response = client.get("/")
-    assert response.status_code == 2000
+    assert response.status_code == 200
