@@ -4,11 +4,11 @@
 # storage and retrieval of data in a repositories, providing an interface for your application
 # to interact with the repositories.
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import create_engine
-from pathlib import Path
 
 # It provides a set of common functionality and conveniences for defining repositories models.
 from sqlalchemy.ext.declarative import declarative_base
@@ -34,7 +34,7 @@ if not DATABASE_URL:
         # f"postgresql+psycopg2://postgres:postgres@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"
         # f"postgresql+psycopg2://postgres:postgres@/percentdb?host=/cloudsql/percentpassed:us-central1:percent"
         # DATABASE_URL = f"postgresql+psycopg2://postgres:postgres@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"  # noqa
-        DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"
+        DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"  # noqa
     else:
         DB_HOST = os.getenv("DB_HOST", "localhost")
         DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -52,5 +52,6 @@ async def get_db():
         finally:
             db.close()
 
-templates_dir = Path(__file__).resolve().parent.parent / 'templates'
+
+templates_dir = Path(__file__).resolve().parent.parent / "templates"
 templates = Jinja2Templates(directory=str(templates_dir))
