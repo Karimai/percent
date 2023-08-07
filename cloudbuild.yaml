@@ -1,5 +1,5 @@
-substitutions:
-  port: '8000'
+#substitutions:
+#  port: '8000'
 
 steps:
   # Build the container image for test
