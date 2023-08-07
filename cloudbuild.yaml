@@ -1,17 +1,15 @@
 steps:
+# Install dependencies using Poetry
+  - name: python
+    entrypoint: poetry
+    args: ["install"]
+
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
       - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
       - '.'
-
-  - name: 'gcr.io/cloud-builders/python'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        python -m pytest
 
   - name: 'gcr.io/cloud-builders/docker'
     args:
