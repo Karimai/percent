@@ -38,7 +38,7 @@ if not DATABASE_URL:
     else:
         DB_HOST = os.getenv("DB_HOST", "localhost")
         DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
+print(DATABASE_URL)
 engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
