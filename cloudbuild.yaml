@@ -13,13 +13,19 @@ substitutions:
 
 steps:
   # Build the container image for test
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'test_runner', '.']
-    env:
-      - "DOCKER_BUILDKIT=1"
+#  - name: 'gcr.io/cloud-builders/docker'
+#    args: ['build', '-t', 'test_runner', '.']
+#    env:
+#      - "DOCKER_BUILDKIT=1"
 
-  # test
-  - name: 'test_runner'
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
+      - '.'
+
+  - name: 'test'
     env:
       - 'DB_USER=$_DB_USER'
       - 'DB_PASS=$_DB_PASS'
@@ -37,13 +43,6 @@ steps:
       - 'python'
       - '-m'
       - 'pytest'
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'build'
-      - '-t'
-      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
-      - '.'
 
   - name: 'gcr.io/cloud-builders/docker'
     args:
