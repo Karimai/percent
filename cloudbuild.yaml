@@ -7,16 +7,18 @@ steps:
 
   # test
   - name: 'test_runner'
+    env:
+      - 'DB_USER=db_user:latest,DB_PASS=db_pass:latest,DB_PORT=db_port:latest,DB_NAME=db_name:latest,SECRET_KEY=secret_key:latest,ALGORITHM=algorithm:latest,ACCESS_TOKEN_EXPIRE_MINUTES=access_token_expire_minutes:latest,ADMIN_USERNAME=admin_username:latest,ADMIN_PASS=admin_pass:latest,ADMIN_EMAIL=admin_email:latest,DB_CLOUD=db_cloud:latest'
     args:
       - 'python'
       - '-m'
       - 'pytest'
-      - '--update-secrets'
-      - 'DB_USER=db_user:latest,DB_PASS=db_pass:latest,DB_PORT=db_port:latest,DB_NAME=db_name:latest,SECRET_KEY=secret_key:latest,ALGORITHM=algorithm:latest,ACCESS_TOKEN_EXPIRE_MINUTES=access_token_expire_minutes:latest,ADMIN_USERNAME=admin_username:latest,ADMIN_PASS=admin_pass:latest,ADMIN_EMAIL=admin_email:latest,DB_CLOUD=db_cloud:latest'
-      - '--add-cloudsql-instances'
-      - 'percentpassed:us-central1:percent'
-      - '--port'
-      - '8000'
+#      - '--update-secrets'
+#      - 'DB_USER=db_user:latest,DB_PASS=db_pass:latest,DB_PORT=db_port:latest,DB_NAME=db_name:latest,SECRET_KEY=secret_key:latest,ALGORITHM=algorithm:latest,ACCESS_TOKEN_EXPIRE_MINUTES=access_token_expire_minutes:latest,ADMIN_USERNAME=admin_username:latest,ADMIN_PASS=admin_pass:latest,ADMIN_EMAIL=admin_email:latest,DB_CLOUD=db_cloud:latest'
+#      - '--add-cloudsql-instances'
+#      - 'percentpassed:us-central1:percent'
+#      - '--port'
+#      - '8000'
 
 
   # Install Poetry within the Docker container
