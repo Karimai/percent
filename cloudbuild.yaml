@@ -6,13 +6,12 @@ steps:
       - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
       - '.'
 
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: 'gcr.io/cloud-builders/python'
+    entrypoint: 'bash'
     args:
-      - 'run'
-      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
-      - 'python'
-      - '-m'
-      - 'pytest'
+      - '-c'
+      - |
+        python -m pytest
 
   - name: 'gcr.io/cloud-builders/docker'
     args:
