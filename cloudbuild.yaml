@@ -25,7 +25,7 @@ steps:
       - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
       - '.'
 
-  - name: 'test'
+  - name: 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
     env:
       - 'DB_USER=$_DB_USER'
       - 'DB_PASS=$_DB_PASS'
