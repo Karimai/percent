@@ -1,8 +1,8 @@
 steps:
-# Install dependencies using Poetry
+  # Install dependencies using Poetry
   - name: python
     entrypoint: poetry
-    args: ["install"]
+    args: ["install", "--no-interaction", "--no-ansi"]
 
   - name: 'gcr.io/cloud-builders/docker'
     args:
