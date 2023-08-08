@@ -4,6 +4,7 @@ from typing import Annotated
 
 import geopandas as gpd
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from jose import jwt
@@ -29,21 +30,51 @@ def get_chart(
             token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM")
         )
         userid = int(payload.get("userid"))
+        user_directory = f"dynamic/{userid}"
+        os.makedirs(user_directory, exist_ok=True)
         residences = residence_repo.get_residences(db, userid)
         for residence in residences:
             res_days[residence.country.split(",")[1]] += (
                 residence.end_date - residence.start_date
             ).days
 
-        plt.bar(res_days.keys(), res_days.values())
+        sorted_res_days = dict(
+            sorted(res_days.items(), key=lambda item: item[1], reverse=True)
+        )
+        total_days = sum(res_days.values())
+        percentages = {
+            country: (days / total_days) * 100
+            for country, days in sorted_res_days.items()
+        }
+
+        plt.bar(percentages.keys(), percentages.values())
         plt.xlabel("Countries")
-        plt.ylabel("Days")
+        plt.ylabel("Days %")
         plt.title("Percentage Distribution")
-        plt.savefig("dynamic/chart.png")
+
+        plt.gca().yaxis.set_major_formatter(mticker.PercentFormatter())
+        plt.yticks(range(0, 101, 5), fontsize=8)
+
+        plt.savefig(f"{user_directory}/bar_plot.png")
         # plt.show()
         plt.close()
 
-        return templates.TemplateResponse("image.html", {"request": request})
+        # Pie Plot
+        plt.pie(
+            sorted_res_days.values(),
+            labels=sorted_res_days.keys(),
+            autopct="%1.1f%%",
+            startangle=140,
+        )
+        plt.title("Percentage Distribution")
+        plt.axis("equal")  # Equal aspect ratio ensures that pie is drawn as a circle.
+        plt.savefig(f"{user_directory}/pie_plot.png")
+        # plt.show()
+        plt.close()
+
+        return templates.TemplateResponse(
+            "image.html", {"request": request, "user_id": str(userid)}
+        )
     except TypeError as err:
         return RedirectResponse(url=f"/login?errors={[str(err)]}")
     except jwt.ExpiredSignatureError as err:
@@ -70,23 +101,23 @@ def get_world_map(
 
         world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
 
-        # Create a new column 'color' with default color 'grey'
         world["color"] = "grey"
 
-        # Set the color of the highlighted countries to black
         world.loc[world["name"].isin(highlighted_countries), "color"] = "Visited"
 
-        # Plot the world map with customized colors
         world.plot(
             column="color", legend=True, cmap="Set1", linewidth=0.5, edgecolor="white"
         )
 
-        # Show the map
-        plt.savefig("dynamic/chart.png")
+        user_directory = f"dynamic/{userid}"
+        os.makedirs(user_directory, exist_ok=True)
+        plt.savefig(f"{user_directory}/world_map.png")
         plt.close()
         # plt.show()
 
-        return templates.TemplateResponse("image.html", {"request": request})
+        return templates.TemplateResponse(
+            "map.html", {"request": request, "user_id": str(userid)}
+        )
     except TypeError as err:
         return RedirectResponse(url=f"/login?errors={[str(err)]}")
     except jwt.ExpiredSignatureError as err:
