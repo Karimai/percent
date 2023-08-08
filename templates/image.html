@@ -1,18 +1,51 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title>Living Percent!</title>
+<title>Living Percent!</title>
 {% endblock %}
 
 {% block content %}
-	<div class="container">
-		{% if msg %}
-			<div class="alert alert-success" role="alert">
-  				{{ msg }}
-			</div>
-		{% else %}
-			<h3> Residence Diagram </h3>
-		{% endif %}
-      <img src="{{ url_for('dynamic', path='/chart.png') }}" />
-	</div>
+<div class="container">
+    {% if msg %}
+    <div class="alert alert-success" role="alert">
+        {{ msg }}
+    </div>
+    {% else %}
+    <h3> Residence Diagram </h3>
+    {% endif %}
+
+    <div class="slideshow">
+        <img id="image" src="{{ url_for('dynamic', path='/'+user_id+'/bar_plot.png') }}"/>
+        <div class="controls">
+            <button id="prevBtn">Previous</button>
+            <button id="nextBtn">Next</button>
+        </div>
+    </div>
+</div>
+<script>
+    var images = [
+        "{{ url_for('dynamic', path='/'+user_id+'/bar_plot.png') }}",
+        "{{ url_for('dynamic', path='/'+user_id+'/pie_plot.png') }}",
+    ];
+
+    let currentImageIndex = 0;
+    let imageElement = document.getElementById("image");
+    let prevButton = document.getElementById("prevBtn");
+    let nextButton = document.getElementById("nextBtn");
+
+    function showImage(index) {
+        imageElement.src = images[index];
+    }
+
+    prevButton.addEventListener("click", function () {
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+        showImage(currentImageIndex);
+    });
+
+    nextButton.addEventListener("click", function () {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        showImage(currentImageIndex);
+    });
+</script>
+
 {% endblock %}
