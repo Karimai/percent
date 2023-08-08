@@ -4,6 +4,7 @@ from typing import Annotated
 
 import geopandas as gpd
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from jose import jwt
@@ -50,8 +51,6 @@ def get_chart(
         plt.xlabel("Countries")
         plt.ylabel("Days %")
         plt.title("Percentage Distribution")
-
-        import matplotlib.ticker as mticker
 
         plt.gca().yaxis.set_major_formatter(mticker.PercentFormatter())
         plt.yticks(range(0, 101, 5), fontsize=8)
@@ -102,13 +101,10 @@ def get_world_map(
 
         world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
 
-        # Create a new column 'color' with default color 'grey'
         world["color"] = "grey"
 
-        # Set the color of the highlighted countries to black
         world.loc[world["name"].isin(highlighted_countries), "color"] = "Visited"
 
-        # Plot the world map with customized colors
         world.plot(
             column="color", legend=True, cmap="Set1", linewidth=0.5, edgecolor="white"
         )

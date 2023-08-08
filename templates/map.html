@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title>Living Percent!</title>
+<title>Living Percent!</title>
 {% endblock %}
 
 {% block content %}
-	<div class="container">
-		{% if msg %}
-			<div class="alert alert-success" role="alert">
-  				{{ msg }}
-			</div>
-		{% else %}
-			<h3> Residence Diagram </h3>
-		{% endif %}
-      <img src="{{ url_for('dynamic', path='/'+user_id+'/world_map.png') }}" />
-	</div>
+<div class="container">
+    {% if msg %}
+    <div class="alert alert-success" role="alert">
+        {{ msg }}
+    </div>
+    {% else %}
+    <h3> Residence Diagram </h3>
+    {% endif %}
+    <img src="{{ url_for('dynamic', path='/'+user_id+'/world_map.png') }}"/>
+</div>
 {% endblock %}
