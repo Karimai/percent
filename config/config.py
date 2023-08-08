@@ -9,12 +9,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import create_engine
-
-# It provides a set of common functionality and conveniences for defining repositories models.
 from sqlalchemy.ext.declarative import declarative_base
-
-# The sessionmaker class is a factory class that is used to create new sessions, which are
-# used to interact with the repositories.
 from sqlalchemy.orm import sessionmaker
 
 load_dotenv()
@@ -34,7 +29,9 @@ if not DATABASE_URL:
         # f"postgresql+psycopg2://postgres:postgres@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"
         # f"postgresql+psycopg2://postgres:postgres@/percentdb?host=/cloudsql/percentpassed:us-central1:percent"
         # DATABASE_URL = f"postgresql+psycopg2://postgres:postgres@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"  # noqa
-        DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"  # noqa
+        DATABASE_URL = (
+            f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@/{DB_NAME}?host=/cloudsql/{DB_CLOUD}"
+        )
     else:
         DB_HOST = os.getenv("DB_HOST", "localhost")
         DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
