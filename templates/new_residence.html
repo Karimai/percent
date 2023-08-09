@@ -34,13 +34,13 @@
       <div class="row mb-3">
         <label for="start-date" class="col-sm-2 col-form-label">From:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="start-date" name="start-date" placeholder="yyyy-mm-dd" required>
+          <input type="date" class="form-control" id="start-date" name="start-date" placeholder="yyyy-mm-dd" required>
         </div>
       </div>
       <div class="row mb-3">
         <label for="end-date" class="col-sm-2 col-form-label">To:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="end-date" name="end-date" placeholder="yyyy-mm-dd">
+          <input type="date" class="form-control" id="end-date" name="end-date">
         </div>
       </div>
       <div class="row mb-3">
@@ -76,12 +76,18 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
   <script type="text/javascript" src="/static/js/utility.js"></script>
-  <script>
-    const endDateInput = document.getElementById('end-date');
-    const presentCheckbox = document.getElementById('present');
+<script>
+  let startDateInput = document.getElementById('start-date');
+  let endDateInput = document.getElementById('end-date');
+  let presentCheckbox = document.getElementById('present');
 
-    presentCheckbox.addEventListener('change', function () {
-      endDateInput.disabled = this.checked;
-    });
-  </script>
+  presentCheckbox.addEventListener('change', function () {
+    endDateInput.disabled = this.checked;
+  });
+  const today = new Date().toISOString().split('T')[0];
+
+  endDateInput.setAttribute("max", today);
+  startDateInput.setAttribute("max", today);
+
+</script>
 {% endblock %}
