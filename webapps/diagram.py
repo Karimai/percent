@@ -1,5 +1,6 @@
 import os
 from collections import defaultdict
+from datetime import date, datetime
 from typing import Annotated
 
 import geopandas as gpd
@@ -10,7 +11,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from jose import jwt
 from sqlalchemy.orm import Session
 
-from config.config import get_db, templates
+from config.config import Date_format, get_db, templates
 from repositories import residence_repo
 
 router = APIRouter()
@@ -34,8 +35,12 @@ def get_chart(
         os.makedirs(user_directory, exist_ok=True)
         residences = residence_repo.get_residences(db, userid)
         for residence in residences:
+            if residence.end_date == "present":
+                end_date = date.today()
+            else:
+                end_date = datetime.strptime(residence.end_date, Date_format).date()
             res_days[residence.country.split(",")[1]] += (
-                residence.end_date - residence.start_date
+                end_date - residence.start_date
             ).days
 
         sorted_res_days = dict(

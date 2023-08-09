@@ -44,6 +44,12 @@
         </div>
       </div>
       <div class="row mb-3">
+        <label for="present" class="col-sm-2 col-form-check-label"></label>
+        <div class="col-sm-10">
+          <input type="checkbox" class="form-check-label" id="present" name="present"> Present
+        </div>
+      </div>
+      <div class="row mb-3">
         <label for="status" class="col-sm-2 col-form-label">Status:</label>
         <div class="col-sm-10">
           <select class="form-select" id="status" name="status">
@@ -51,6 +57,7 @@
           <option value="travel">Travel</option>
           <option value="study">Study</option>
           <option value="work">Work</option>
+          <option value="other">Other</option>
         </select>
         </div>
       </div>
@@ -69,5 +76,12 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
   <script type="text/javascript" src="/static/js/utility.js"></script>
+  <script>
+    const endDateInput = document.getElementById('end-date');
+    const presentCheckbox = document.getElementById('present');
 
+    presentCheckbox.addEventListener('change', function () {
+      endDateInput.disabled = this.checked;
+    });
+  </script>
 {% endblock %}
