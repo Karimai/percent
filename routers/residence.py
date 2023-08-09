@@ -7,12 +7,11 @@ from fastapi.responses import RedirectResponse
 from jose import jwt
 from sqlalchemy.orm import Session
 
-from config.config import get_db, templates
+from config.config import Date_format, get_db, templates
 from repositories import residence_repo
 from schemas import schemas
 
 router = APIRouter(tags=["Residence"], prefix="/residence")
-Date_format = "%Y-%m-%d"
 
 
 @router.post("/create", response_model=schemas.Residence)
@@ -73,7 +72,11 @@ async def save_residence(request: Request, db: Annotated[Session, Depends(get_db
         userid = int(payload.get("userid"))
         residence = schemas.ResidenceCreate(
             start_date=datetime.strptime(form.get("start-date"), Date_format),
-            end_date=datetime.strptime(form.get("end-date"), Date_format),
+            end_date="present"
+            if form.get("present")
+            else datetime.strptime(form.get("end-date"), Date_format).strftime(
+                Date_format
+            ),
             status=form.get("status").capitalize(),
             country=form.get("country"),
             city=form.get("city"),
@@ -110,7 +113,11 @@ async def set_residence(request: Request, db: Annotated[Session, Depends(get_db)
         residence_id = int(form.get("residence_id"))
         residence = schemas.ResidenceUpdate(
             start_date=datetime.strptime(form.get("start-date"), Date_format),
-            end_date=datetime.strptime(form.get("end-date"), Date_format),
+            end_date="present"
+            if form.get("present")
+            else datetime.strptime(form.get("end-date"), Date_format).strftime(
+                Date_format
+            ),
             status=form.get("status").capitalize(),
             country=form.get("country"),
             city=form.get("city"),

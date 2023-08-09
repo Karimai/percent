@@ -49,7 +49,7 @@ class Residence(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     start_date = Column(Date, default=func.now())
-    end_date = Column(Date, default=func.now())
+    end_date = Column(String)
     status = Column(Enum(Status), default=Status.motherland)
     country = Column(String)
     city = Column(String)

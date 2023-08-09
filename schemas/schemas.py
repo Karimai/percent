@@ -49,7 +49,7 @@ class User(UserBase):
 
 class ResidenceBase(BaseModel):
     start_date: Optional[date]
-    end_date: Optional[date]
+    end_date: Optional[str]
     status: Optional[Status] = Status.motherland
     country: str
     city: str

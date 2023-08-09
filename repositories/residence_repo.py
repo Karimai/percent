@@ -12,6 +12,7 @@ def create_residence(
         end_date=residence.end_date,
         status=residence.status,
         country=residence.country,
+        city=residence.city,
         user_id=user_id,
     )
     db.add(db_residence)
