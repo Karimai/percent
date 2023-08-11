@@ -11,7 +11,6 @@ from sqlalchemy.orm import Session
 from config.config import get_db, templates
 from models import models
 from repositories.user_repo import pwd_context
-from schemas.schemas import TokenData
 from utility.helper import generate_token
 
 load_dotenv()
@@ -77,11 +76,9 @@ def auth(
             status_code=status.HTTP_404_NOT_FOUND, detail="Invalid password"
         )
     # Generating JWT token
-    access_token = generate_token(data={"sub": user.username})
-    print("return generated token!")
+    access_token = generate_token(data={"username": user.username, "userid": user.id})
 
     # return RedirectResponse(url="/dashboard", status_code=status.HTTP_307_TEMPORARY_REDIRECT)
-    # Redirect the user to its dashboard page
     return {"access_token": access_token, "token_type": "bearer"}
 
 
@@ -95,10 +92,9 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         payload = jwt.decode(
             token, os.getenv("SECRET_KEY"), algorithms=[os.getenv("ALGORITHM")]
         )
-        username: str = payload.get("sub")
+        username: str = payload.get("userid")
         if not username:
             raise credential_exception
-        token_data = TokenData(username=username)  # noqa F841
-
+        return username
     except JWTError:
         raise credential_exception

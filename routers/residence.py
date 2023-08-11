@@ -11,6 +11,8 @@ from config.config import Date_format, get_db, templates
 from repositories import residence_repo
 from schemas import schemas
 
+from .login import get_current_user
+
 router = APIRouter(tags=["Residence"], prefix="/residence")
 
 
@@ -21,6 +23,15 @@ def create_residence(
     db: Annotated[Session, Depends(get_db)],
 ):
     return residence_repo.create_residence(db, residence=residence, user_id=user_id)
+
+
+@router.get("/oauthresidences")
+def get_residences_secretly(
+    db: Annotated[Session, Depends(get_db)],
+    current_user: int = Depends(get_current_user),
+):
+    residences = residence_repo.get_residences(db, current_user)
+    return residences
 
 
 @router.get("/residences")
