@@ -13,7 +13,6 @@ from models import models
 from repositories.user_repo import create_admin_user
 from routers import login, residence, user
 from webapps import diagram
-from webapps import residences as web_residences
 
 app = FastAPI(
     title="Percent app",
@@ -28,7 +27,6 @@ ALLOWED_URLS = ["/login", "/login/", "/user/register", "/"]
 app.include_router(user.router)
 app.include_router(login.router)
 app.include_router(residence.router)
-app.include_router(web_residences.router)
 app.include_router(diagram.router)
 
 dynamic_dir = Path(__file__).resolve().parent / "dynamic"

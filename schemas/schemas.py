@@ -75,13 +75,3 @@ class Residence(ResidenceBase):
 # TypeError: issubclass() arg 1 must be a class
 # for residences: List[Residence] = []
 User.update_forward_refs()
-
-
-class Login(BaseModel):
-    username: str
-    password: str
-
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
