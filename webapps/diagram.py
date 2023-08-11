@@ -22,6 +22,13 @@ def get_chart(
     request: Request,
     db: Annotated[Session, Depends(get_db)],
 ):
+    """
+    Generate and display diagrams showing percentage distribution of residence days by country.
+
+    :param request: The HTTP request object.
+    :param db: The database session dependency.
+    :return: A template response displaying the generated diagrams.
+    """
     res_days = defaultdict(lambda: 0)
     token = request.cookies.get("access_token")
     if not token:
@@ -91,6 +98,13 @@ def get_world_map(
     request: Request,
     db: Annotated[Session, Depends(get_db)],
 ):
+    """
+    Generate and display a world map highlighting countries visited by the user.
+
+    :param request: The HTTP request object.
+    :param db: The database session dependency.
+    :return: A template response displaying the generated world map.
+    """
     token = request.cookies.get("access_token")
     if not token:
         return RedirectResponse(url="/login")
