@@ -113,7 +113,6 @@ async def save_residence(request: Request, db: Annotated[Session, Depends(get_db
     :param db: The database session dependency.
     :return: A redirect response after processing the new residence creation.
     """
-    from datetime import datetime
 
     form = await request.form()
     token = request.cookies.get("access_token")
@@ -165,7 +164,7 @@ def get_residence(
     )
 
 
-@router.post("/{residence_id}")
+@router.post("/{residence_id}", include_in_schema=False)
 async def set_residence(request: Request, db: Annotated[Session, Depends(get_db)]):
     """
     Update a residence based on data from the edit residence form.

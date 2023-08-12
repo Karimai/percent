@@ -66,7 +66,7 @@ def get_users(db: Annotated[Session, Depends(get_db)]):
     return users
 
 
-@router.get("/logout")
+@router.get("/logout", include_in_schema=False)
 async def logout():
     """
     Perform user logout by deleting the access token cookie.
