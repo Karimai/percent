@@ -71,7 +71,9 @@ class ResidenceBase(BaseModel):
             return value
         value = datetime.strptime(value, Date_format).date()
         if value > date.today():
-            raise ValueError("End date cannot be in the future.")
+            print(value)
+            print(type(value), type(date.today()))
+            raise ValueError("nope End date cannot be in the future......")
         return value
 
     @validator("country")

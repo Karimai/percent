@@ -8,10 +8,12 @@ from config.config import get_db, templates
 from repositories import user_repo
 from schemas import schemas
 
+from .login import get_current_user
+
 router = APIRouter(tags=["Users"], prefix="/user")
 
 
-@router.get("/register")
+@router.get("/register", include_in_schema=False)
 def register_user(request: Request):
     """
     Render the 'user_register.html' template for user registration.
@@ -22,7 +24,7 @@ def register_user(request: Request):
     return templates.TemplateResponse("user_register.html", {"request": request})
 
 
-@router.post("/register", response_model=schemas.User)
+@router.post("/register", response_model=schemas.User, include_in_schema=False)
 async def create_user(request: Request, db: Annotated[Session, Depends(get_db)]):
     """
     Create a new user using data from the registration form.
@@ -53,13 +55,22 @@ async def create_user(request: Request, db: Annotated[Session, Depends(get_db)])
 
 
 @router.get("/users")
-def get_users(db: Annotated[Session, Depends(get_db)]):
+def get_users(
+    db: Annotated[Session, Depends(get_db)],
+    current_user_id: int = Depends(get_current_user),
+):
     """
     Retrieve a list of users from the database.
 
+    :param current_user_id: user_id of the logged-in user
     :param db: The database session dependency.
     :return: List of users or an HTTPException if no users are found.
     """
+    user = user_repo.get_user(db=db, user_id=current_user_id)
+    if not user or user.role != "Admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Only admit can see the users"
+        )
     users = user_repo.get_users(db)
     if not users:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No users")
@@ -79,7 +90,9 @@ async def logout():
 
 
 @router.get("/{user_id}", response_model=schemas.User)
-def get_user(user_id: int, db: Annotated[Session, Depends(get_db)]):
+def get_user(
+    db: Annotated[Session, Depends(get_db)], user_id: int = Depends(get_current_user)
+):
     """
     Retrieve a user by their ID from the database.
 
@@ -96,7 +109,9 @@ def get_user(user_id: int, db: Annotated[Session, Depends(get_db)]):
 
 
 @router.delete("/{user_id}")
-def delete_user(user_id: int, db: Annotated[Session, Depends(get_db)]):
+def delete_user(
+    db: Annotated[Session, Depends(get_db)], user_id: int = Depends(get_current_user)
+):
     """
     Delete a user by their ID from the database.
 
@@ -115,9 +130,9 @@ def delete_user(user_id: int, db: Annotated[Session, Depends(get_db)]):
 
 @router.put("/{user_id}", response_model=schemas.User)
 def update_user(
-    user_id: int,
     user_update: schemas.UserUpdate,
     db: Annotated[Session, Depends(get_db)],
+    user_id: int = Depends(get_current_user),
 ):
     """
     Update a user by their ID in the database.
@@ -128,8 +143,14 @@ def update_user(
     :return: The updated user object or an HTTPException if the user is not found.
     """
     updated_user = user_repo.update_user(db, user_id=user_id, user_update=user_update)
-    if not updated_user:
+    try:
+        if not updated_user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+            )
+        return user_repo.get_user(db, user_id=user_id)
+    except ValueError as e:
+        print(str(e))
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )
-    return user_repo.get_user(db, user_id=user_id)
