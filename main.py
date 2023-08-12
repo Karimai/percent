@@ -45,7 +45,7 @@ async def startup():
         create_admin_user(db)
 
 
-@app.get("/")
+@app.get("/", include_in_schema=False)
 async def index(
     request: Request, msg: str | None = None, errors: List[str] | None = None
 ):

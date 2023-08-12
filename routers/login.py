@@ -19,7 +19,7 @@ router = APIRouter(tags=["Login"], prefix="/login")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login/auth/")
 
 
-@router.get("/")
+@router.get("/", include_in_schema=False)
 async def login(request: Request, msg: str = None):
     """
     Render the login page.
@@ -31,7 +31,7 @@ async def login(request: Request, msg: str = None):
     return templates.TemplateResponse("login.html", {"request": request, "msg": msg})
 
 
-@router.post("/")
+@router.post("/", include_in_schema=False)
 async def login(  # noqa: F811
     request: Request,
     db: Annotated[Session, Depends(get_db)],

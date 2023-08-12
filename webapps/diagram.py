@@ -17,7 +17,7 @@ from repositories import residence_repo
 router = APIRouter()
 
 
-@router.get("/diagram", response_class=HTMLResponse)
+@router.get("/diagram", response_class=HTMLResponse, include_in_schema=False)
 def get_chart(
     request: Request,
     db: Annotated[Session, Depends(get_db)],
@@ -93,7 +93,7 @@ def get_chart(
         return RedirectResponse(url=f"/login?errors={[str(err)]}")
 
 
-@router.get("/worldmap", response_class=HTMLResponse)
+@router.get("/worldmap", response_class=HTMLResponse, include_in_schema=False)
 def get_world_map(
     request: Request,
     db: Annotated[Session, Depends(get_db)],
