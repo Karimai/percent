@@ -1,10 +1,12 @@
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 from enum import StrEnum
 from typing import List, Optional
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, validator
+
+from config.config import Date_format
 
 
 class Status(StrEnum):
@@ -41,18 +43,54 @@ class UserUpdate(UserBase):
 class User(UserBase):
     id: int
     residences: List[Residence] = []
-    # residences = []
 
     class Config:
         orm_mode = True
 
 
 class ResidenceBase(BaseModel):
-    start_date: Optional[date]
-    end_date: Optional[str]
-    status: Optional[Status] = Status.motherland
+    start_date: date
+    end_date: str
+    status: Status = Status.motherland
     country: str
     city: str
+
+    @validator("start_date")
+    def validate_start_date(cls, value):
+        if not value or value > date.today():
+            raise ValueError("Start date cannot be in the future")
+        return value
+
+    @validator("end_date")
+    def validate_end_date(cls, value):
+        if not value:
+            raise ValueError(
+                "End date is empty. It should have a valid date or 'present'"
+            )
+        if value == "present":
+            return value
+        value = datetime.strptime(value, Date_format).date()
+        if value > date.today():
+            raise ValueError("End date cannot be in the future.")
+        return value
+
+    @validator("country")
+    def validate_country(cls, value):
+        if not value:
+            raise ValueError("Country name is mandatory")
+        return value
+
+    @validator("city")
+    def validate_city(cls, value):
+        if not value:
+            raise ValueError("City name is mandatory")
+        return value
+
+    @validator("status")
+    def validate_status(cls, value):
+        if value not in Status:
+            raise ValueError("Invalid status value")
+        return value
 
 
 class ResidenceCreate(ResidenceBase):
