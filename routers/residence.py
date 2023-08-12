@@ -50,7 +50,7 @@ def get_residences_secretly(
     return residences
 
 
-@router.get("/residences")
+@router.get("/residences", include_in_schema=False)
 def get_residences(request: Request, db: Annotated[Session, Depends(get_db)]):
     """
     Retrieve residences for the current user and render them on the "residence.html" template.
@@ -93,7 +93,7 @@ def delete_residence(residence_id: int, db: Annotated[Session, Depends(get_db)])
     return {"message": "Deleted successfully"}
 
 
-@router.get("/newresidence")
+@router.get("/newresidence", include_in_schema=False)
 def new_residence(request: Request):
     """
     Render the page for creating a new residence.
@@ -104,7 +104,7 @@ def new_residence(request: Request):
     return templates.TemplateResponse("new_residence.html", {"request": request})
 
 
-@router.post("/newresidence")
+@router.post("/newresidence", include_in_schema=False)
 async def save_residence(request: Request, db: Annotated[Session, Depends(get_db)]):
     """
     Save a new residence using data from the new residence creation form.
@@ -146,7 +146,7 @@ async def save_residence(request: Request, db: Annotated[Session, Depends(get_db
         )
 
 
-@router.get("/{residence_id}")
+@router.get("/{residence_id}", include_in_schema=False)
 def get_residence(
     residence_id: int, request: Request, db: Annotated[Session, Depends(get_db)]
 ):
