@@ -14,10 +14,12 @@ from sqlalchemy.orm import Session
 from config.config import Date_format, get_db, templates
 from repositories import residence_repo
 
-router = APIRouter()
+router = APIRouter(tags=["Views"])
+api_v01_router = APIRouter(tags=["Vies"])
 
 
 @router.get("/diagram", response_class=HTMLResponse, include_in_schema=False)
+@api_v01_router.get("/diagram", response_class=HTMLResponse)
 def get_chart(
     request: Request,
     db: Annotated[Session, Depends(get_db)],
@@ -94,6 +96,7 @@ def get_chart(
 
 
 @router.get("/worldmap", response_class=HTMLResponse, include_in_schema=False)
+@api_v01_router.get("/worldmap", response_class=HTMLResponse)
 def get_world_map(
     request: Request,
     db: Annotated[Session, Depends(get_db)],
