@@ -11,6 +11,7 @@ from schemas import schemas
 from .login import get_current_user
 
 router = APIRouter(tags=["Users"], prefix="/user")
+api_v01_router = APIRouter(tags=["Users"], prefix="/user")
 
 
 @router.get("/register", include_in_schema=False)
@@ -55,6 +56,7 @@ async def create_user(request: Request, db: Annotated[Session, Depends(get_db)])
 
 
 @router.get("/users")
+@api_v01_router.get("/users")
 def get_users(
     db: Annotated[Session, Depends(get_db)],
     current_user_id: int = Depends(get_current_user),
@@ -90,6 +92,7 @@ async def logout():
 
 
 @router.get("/{user_id}", response_model=schemas.User)
+@api_v01_router.get("/{user_id}", response_model=schemas.User)
 def get_user(
     db: Annotated[Session, Depends(get_db)], user_id: int = Depends(get_current_user)
 ):
@@ -109,6 +112,7 @@ def get_user(
 
 
 @router.delete("/{user_id}")
+@api_v01_router.delete("/{user_id}")
 def delete_user(
     db: Annotated[Session, Depends(get_db)], user_id: int = Depends(get_current_user)
 ):
@@ -129,6 +133,7 @@ def delete_user(
 
 
 @router.put("/{user_id}", response_model=schemas.User)
+@api_v01_router.put("/{user_id}", response_model=schemas.User)
 def update_user(
     user_update: schemas.UserUpdate,
     db: Annotated[Session, Depends(get_db)],

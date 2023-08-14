@@ -14,8 +14,10 @@ from schemas import schemas
 from .login import get_current_user
 
 router = APIRouter(tags=["Residence"], prefix="/residence")
+api_v01_router = APIRouter(tags=["Residence"], prefix="/residence")
 
 
+@api_v01_router.post("/create", response_model=schemas.Residence)
 @router.post("/create", response_model=schemas.Residence)
 def create_residence(
     user_id: int,
@@ -34,6 +36,7 @@ def create_residence(
 
 
 @router.get("/oauthresidences")
+@api_v01_router.get("/oauthresidences")
 def get_residences_secretly(
     db: Annotated[Session, Depends(get_db)],
     current_user: int = Depends(get_current_user),
@@ -78,7 +81,8 @@ def get_residences(request: Request, db: Annotated[Session, Depends(get_db)]):
         )
 
 
-@router.delete("/delete/{residence_id}")
+@router.get("/oauthresidences")
+@api_v01_router.get("/oauthresidences")
 def delete_residence(residence_id: int, db: Annotated[Session, Depends(get_db)]):
     """
     Delete a residence by its ID from the database.

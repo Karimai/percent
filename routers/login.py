@@ -16,6 +16,8 @@ from utility.helper import generate_token
 load_dotenv()
 
 router = APIRouter(tags=["Login"], prefix="/login")
+api_v01_router = APIRouter(tags=["Login"], prefix="/login")
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login/auth/")
 
 
@@ -72,7 +74,7 @@ async def login(  # noqa: F811
     return response
 
 
-# TODO: only for use with Swagger for the time being
+@api_v01_router.post("/auth/")
 @router.post("/auth/")
 def auth(
     request: Annotated[OAuth2PasswordRequestForm, Depends()],

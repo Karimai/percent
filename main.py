@@ -22,18 +22,30 @@ app = FastAPI(
     contact={"Developer": "Karim Moradi", "email": "kmoradi.ai@gmail.com"},
 )
 
+api_v01 = FastAPI()
+app.mount(path="/api/v01", app=api_v01)
+
 ALLOWED_URLS = ["/login", "/login/", "/user/register", "/"]
 
 app.include_router(user.router)
+api_v01.include_router(user.api_v01_router)
+
 app.include_router(login.router)
+api_v01.include_router(login.api_v01_router)
+
 app.include_router(residence.router)
+api_v01.include_router(residence.api_v01_router)
+
 app.include_router(diagram.router)
+api_v01.include_router(diagram.api_v01_router)
 
 dynamic_dir = Path(__file__).resolve().parent / "dynamic"
 static_dir = Path(__file__).resolve().parent / "static"
 
 app.mount("/dynamic", StaticFiles(directory=str(dynamic_dir)), name="dynamic")
 app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+api_v01.mount("/dynamic", StaticFiles(directory=str(dynamic_dir)), name="dynamic")
+api_v01.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
 
 @app.on_event("startup")
