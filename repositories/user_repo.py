@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from fastapi import HTTPException, status
 from passlib.context import CryptContext
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, defer
 
 from models import models
 from schemas import schemas
@@ -84,11 +84,16 @@ def create_admin_user(db: Session):
 
 
 def get_user(db: Session, user_id: int) -> models.User:
-    return db.query(models.User).filter(models.User.id == user_id).first()
+    return (
+        db.query(models.User)
+        .filter(models.User.id == user_id)
+        .options(defer("password"))
+        .first()
+    )
 
 
 def get_users(db: Session):
-    return db.query(models.User).all()
+    return db.query(models.User).options(defer("password")).all()
 
 
 def delete_user(db: Session, user_id: int) -> bool:
