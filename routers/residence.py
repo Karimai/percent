@@ -81,8 +81,8 @@ def get_residences(request: Request, db: Annotated[Session, Depends(get_db)]):
         )
 
 
-@router.get("/oauthresidences")
-@api_v01_router.get("/oauthresidences")
+@router.delete("/delete/{residence_id}")
+@api_v01_router.delete("/delete/{residence_id}")
 def delete_residence(residence_id: int, db: Annotated[Session, Depends(get_db)]):
     """
     Delete a residence by its ID from the database.
