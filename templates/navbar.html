@@ -7,22 +7,17 @@
         </div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
-            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Residence<span
-                    class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="/residence/residences">Residences</a></li>
-                    <li><a href="/residence/newresidence">New Residence</a></li>
-                    <li><a href="/diagram">Diagram</a></li>
-                    <li><a href="/worldmap">World View</a></li>
-                </ul>
-            </li>
+            <li><a href="/residence/residences">Residences</a></li>
+            <li><a href="/residence/newresidence">New Residence</a></li>
+            <li><a href="/diagram">Diagram</a></li>
+            <li><a href="/worldmap">World View</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             {% if request.cookies.get("access_token") %}
-                <li><a href="/user/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+            <li><a href="/user/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
             {% else %}
-                <li><a href="/user/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li><a href="/user/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             {% endif %}
         </ul>
     </div>
