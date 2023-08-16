@@ -72,4 +72,6 @@ Contributions to the Percent app are welcome! You can help me to make it better 
 ## 10. License
 The Percent app is licensed under the MIT License. Feel free to use, modify, and distribute the app according to the license.
 
+## 11. User Interface
+While the main goal of this project is for working with Google Cloud Platform (GCP), still the basic functionalities can be seen with [https://percent-app-th4sozzjba-uc.a.run.app/](https://percent-app-th4sozzjba-uc.a.run.app/)
 

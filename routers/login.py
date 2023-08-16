@@ -101,7 +101,6 @@ def auth(
     # Generating JWT token
     access_token = generate_token(data={"username": user.username, "userid": user.id})
 
-    # return RedirectResponse(url="/dashboard", status_code=status.HTTP_307_TEMPORARY_REDIRECT)
     return {"access_token": access_token, "token_type": "bearer"}
 
 
