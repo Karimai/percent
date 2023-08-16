@@ -15,7 +15,7 @@ from config.config import Date_format, get_db, templates
 from repositories import residence_repo
 
 router = APIRouter(tags=["Views"])
-api_v01_router = APIRouter(tags=["Vies"])
+api_v01_router = APIRouter(tags=["Views"])
 
 
 class PlotGenerator:
