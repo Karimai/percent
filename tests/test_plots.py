@@ -1,4 +1,5 @@
 import os
+import shutil
 from datetime import date
 from unittest.mock import Mock
 
@@ -43,3 +44,7 @@ class TestPlotGenerator:
             if file.endswith(".png")
         )
         assert png_file_count > 1
+        shutil.rmtree(plot_generator.user_directory)
+        assert not os.path.exists(
+            plot_generator.user_directory
+        ), "Directory still exist."
