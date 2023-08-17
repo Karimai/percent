@@ -34,9 +34,7 @@ class PlotGenerator:
             else:
                 end_date = datetime.strptime(residence.end_date, Date_format).date()
 
-            res_days[residence.country.split(",")[1]] = (
-                end_date - residence.start_date
-            ).days
+            res_days[residence.country_code] = (end_date - residence.start_date).days
 
         sorted_res_days = dict(
             sorted(res_days.items(), key=lambda item: item[1], reverse=True)
@@ -134,7 +132,7 @@ def get_world_map(
         residences = residence_repo.get_residences(db, userid)
         highlighted_countries = []
         for residence in residences:
-            highlighted_countries.append(residence.country.split(",")[0])
+            highlighted_countries.append(residence.country)
 
         world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
 

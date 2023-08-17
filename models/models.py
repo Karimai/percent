@@ -52,6 +52,7 @@ class Residence(Base):
     end_date = Column(String)
     status = Column(Enum(Status), default=Status.motherland)
     country = Column(String)
+    country_code = Column(String)
     city = Column(String)
     user_id = Column(Integer, ForeignKey("user.id"))
 

@@ -12,11 +12,6 @@ substitutions:
   _DB_CLOUD: projects/292927587123/secrets/db_cloud/versions/latest
 
 steps:
-  # Build the container image for test
-#  - name: 'gcr.io/cloud-builders/docker'
-#    args: ['build', '-t', 'test_runner', '.']
-#    env:
-#      - "DOCKER_BUILDKIT=1"
 
   - name: 'gcr.io/cloud-builders/docker'
     args:

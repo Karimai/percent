@@ -50,6 +50,8 @@ def get_residences_secretly(
     :return: Residences associated with the current user.
     """
     residences = residence_repo.get_residences(db, current_user)
+    for residence in residences:
+        residence += f",{residence.country_code}"
     return residences
 
 
@@ -71,6 +73,8 @@ def get_residences(request: Request, db: Annotated[Session, Depends(get_db)]):
         )
         userid = int(payload.get("userid"))
         residences = residence_repo.get_residences(db, userid)
+        for residence in residences:
+            residence.country += f",{residence.country_code}"
         return templates.TemplateResponse(
             "residence.html", {"request": request, "residences": residences}
         )
@@ -127,6 +131,7 @@ async def save_residence(request: Request, db: Annotated[Session, Depends(get_db
             token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM")
         )
         userid = int(payload.get("userid"))
+        country, country_code = form.get("country").split(",")
         residence = schemas.ResidenceCreate(
             start_date=datetime.strptime(form.get("start-date"), Date_format),
             end_date="present"
@@ -135,7 +140,8 @@ async def save_residence(request: Request, db: Annotated[Session, Depends(get_db
                 Date_format
             ),
             status=form.get("status").capitalize(),
-            country=form.get("country"),
+            country=country,
+            country_code=country_code,
             city=form.get("city"),
         )
         residence_repo.create_residence(db, residence=residence, user_id=userid)
@@ -162,6 +168,7 @@ def get_residence(
     :return: A template response displaying the retrieved residence for editing.
     """
     residence = residence_repo.get_residence(db, residence_id=residence_id)
+    residence.country += f",{residence.country_code}"
     return templates.TemplateResponse(
         "edit_residence.html",
         {"request": request, "residence": residence},
@@ -183,6 +190,7 @@ async def set_residence(request: Request, db: Annotated[Session, Depends(get_db)
         return RedirectResponse(url="/login", status_code=status.HTTP_303_SEE_OTHER)
     try:
         residence_id = int(form.get("residence_id"))
+        country, country_code = form.get("country").split(",")
         residence = schemas.ResidenceUpdate(
             start_date=datetime.strptime(form.get("start-date"), Date_format),
             end_date="present"
@@ -191,7 +199,8 @@ async def set_residence(request: Request, db: Annotated[Session, Depends(get_db)
                 Date_format
             ),
             status=form.get("status").capitalize(),
-            country=form.get("country"),
+            country=country,
+            country_code=country_code,
             city=form.get("city"),
         )
         residence_repo.update_residence(
