@@ -86,18 +86,35 @@ def test_valid_user_create(username, email, password, date_of_birth):
 
 
 @mark.parametrize(
-    "start_date, end_date, status, country, city",
+    "start_date, end_date, status, country, country_code, city",
     [
-        (date.today(), "2023-01-01", Status.motherland, "Test Country", "Test City"),
-        (date(2022, 1, 1), "present", Status.travel, "Travel Country", "Travel City"),
+        (
+            date.today(),
+            "2023-01-01",
+            Status.motherland,
+            "Test Country",
+            "TS",
+            "Test City",
+        ),
+        (
+            date(2022, 1, 1),
+            "present",
+            Status.travel,
+            "Travel Country",
+            "ST",
+            "Travel City",
+        ),
     ],
 )
-def test_valid_residence_create(start_date, end_date, status, country, city):
+def test_valid_residence_create(
+    start_date, end_date, status, country, country_code, city
+):
     residence = ResidenceCreate(
         start_date=start_date,
         end_date=end_date,
         status=status,
         country=country,
+        country_code=country_code,
         city=city,
     )
     assert residence.start_date == start_date

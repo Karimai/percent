@@ -10,8 +10,9 @@ from webapps.diagram import PlotGenerator
 
 # Mock residence data for testing
 class MockResidence:
-    def __init__(self, country, start_date, end_date):
+    def __init__(self, country, country_code, start_date, end_date):
         self.country = country
+        self.country_code = country_code
         self.start_date = start_date
         self.end_date = end_date
 
@@ -20,8 +21,8 @@ class TestPlotGenerator:
     @pytest.fixture
     def mock_residences(self):
         return [
-            MockResidence("Iran,IR", date(2020, 1, 1), "2023-03-03"),
-            MockResidence("Iraq,IQ", date(2020, 3, 1), "present"),
+            MockResidence("Iran", "IR", date(2020, 1, 1), "2023-03-03"),
+            MockResidence("Iraq", "IQ", date(2020, 3, 1), "present"),
         ]
 
     @pytest.fixture
