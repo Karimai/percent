@@ -12,6 +12,7 @@ def create_residence(
         end_date=residence.end_date,
         status=residence.status,
         country=residence.country,
+        country_code=residence.country_code,
         city=residence.city,
         user_id=user_id,
     )
@@ -22,9 +23,10 @@ def create_residence(
 
 
 def get_residence(db: Session, residence_id: int) -> models.Residence:
-    return (
+    residence = (
         db.query(models.Residence).filter(models.Residence.id == residence_id).first()
     )
+    return residence
 
 
 def get_residences(db: Session, userid: int):

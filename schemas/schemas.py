@@ -53,6 +53,7 @@ class ResidenceBase(BaseModel):
     end_date: str
     status: Status = Status.motherland
     country: str
+    country_code: str
     city: str
 
     @validator("start_date")
