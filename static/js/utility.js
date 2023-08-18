@@ -60,7 +60,7 @@ function fillCitiesForCountry(country_code) {
 
     const overpassApiUrl = 'https://overpass-api.de/api/interpreter';
     const query = `[out:json];
-                area["ISO3166-1"="${country_code}"];
+            area["ISO3166-1:alpha3"="${country_code}"];
                 node["place"="city"](area);
                 out;`;
 
