@@ -132,13 +132,13 @@ def get_world_map(
         residences = residence_repo.get_residences(db, userid)
         highlighted_countries = []
         for residence in residences:
-            highlighted_countries.append(residence.country)
+            highlighted_countries.append(residence.country_code)
 
         world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
 
         world["color"] = "grey"
 
-        world.loc[world["name"].isin(highlighted_countries), "color"] = "Visited"
+        world.loc[world["iso_a3"].isin(highlighted_countries), "color"] = "Visited"
 
         world.plot(
             column="color", legend=True, cmap="Set1", linewidth=0.5, edgecolor="white"
@@ -148,7 +148,6 @@ def get_world_map(
         os.makedirs(user_directory, exist_ok=True)
         plt.savefig(f"{user_directory}/world_map.png")
         plt.close()
-        # plt.show()
 
         return templates.TemplateResponse(
             "map.html", {"request": request, "user_id": str(userid)}
