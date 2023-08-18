@@ -19,12 +19,12 @@ api_v01_router = APIRouter(tags=["Views"])
 
 
 class PlotGenerator:
-    def __init__(self, user_id, residences, db):
+    def __init__(self, user_id, db):
         self.user_id = user_id
-        self.residences = residences
         self.db = db
         self.user_directory = f"dynamic/{self.user_id}"
         os.makedirs(self.user_directory, exist_ok=True)
+        self.residences = residence_repo.get_residences(db, user_id)
 
     def generate_plots(self):
         res_days = defaultdict(int)
@@ -70,6 +70,24 @@ class PlotGenerator:
         plt.savefig(f"{self.user_directory}/pie_plot.png")
         plt.close()
 
+    def generate_worldmap(self):
+        highlighted_countries = []
+        for residence in self.residences:
+            highlighted_countries.append(residence.country_code)
+
+        world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
+
+        world["color"] = "grey"
+
+        world.loc[world["iso_a3"].isin(highlighted_countries), "color"] = "Visited"
+
+        world.plot(
+            column="color", legend=True, cmap="Set1", linewidth=0.5, edgecolor="white"
+        )
+
+        plt.savefig(f"{self.user_directory}/world_map.png")
+        plt.close()
+
 
 @router.get("/diagram", response_class=HTMLResponse, include_in_schema=False)
 @api_v01_router.get("/diagram", response_class=HTMLResponse)
@@ -92,9 +110,8 @@ def get_chart(
             token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM")
         )
         user_id = int(payload.get("userid"))
-        residences = residence_repo.get_residences(db, user_id)
 
-        plot_generator = PlotGenerator(user_id=user_id, residences=residences, db=db)
+        plot_generator = PlotGenerator(user_id=user_id, db=db)
         plot_generator.generate_plots()
 
         return templates.TemplateResponse(
@@ -128,31 +145,17 @@ def get_world_map(
         payload = jwt.decode(
             token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM")
         )
-        userid = int(payload.get("userid"))
-        residences = residence_repo.get_residences(db, userid)
-        highlighted_countries = []
-        for residence in residences:
-            highlighted_countries.append(residence.country_code)
+        user_id = int(payload.get("userid"))
 
-        world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
-
-        world["color"] = "grey"
-
-        world.loc[world["iso_a3"].isin(highlighted_countries), "color"] = "Visited"
-
-        world.plot(
-            column="color", legend=True, cmap="Set1", linewidth=0.5, edgecolor="white"
-        )
-
-        user_directory = f"dynamic/{userid}"
-        os.makedirs(user_directory, exist_ok=True)
-        plt.savefig(f"{user_directory}/world_map.png")
-        plt.close()
+        plot_generator = PlotGenerator(user_id=user_id, db=db)
+        plot_generator.generate_worldmap()
 
         return templates.TemplateResponse(
-            "map.html", {"request": request, "user_id": str(userid)}
+            "map.html", {"request": request, "user_id": str(user_id)}
         )
     except TypeError as err:
-        return RedirectResponse(url=f"/login?errors={[str(err)]}")
+        print(str(err))
+        return RedirectResponse(url="/login")
     except jwt.ExpiredSignatureError as err:
-        return RedirectResponse(url=f"/login?errors={[str(err)]}")
+        print(str(err))
+        return RedirectResponse(url="/login")
