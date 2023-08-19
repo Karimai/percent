@@ -19,12 +19,12 @@ api_v01_router = APIRouter(tags=["Views"])
 
 
 class PlotGenerator:
-    def __init__(self, user_id, residences, db):
+    def __init__(self, user_id, db):
         self.user_id = user_id
         self.db = db
         self.user_directory = f"dynamic/{self.user_id}"
         os.makedirs(self.user_directory, exist_ok=True)
-        self.residences = residences
+        self.residences = residence_repo.get_residences(db, user_id)
 
     def generate_plots(self):
         res_days = defaultdict(int)
@@ -111,8 +111,7 @@ def get_chart(
         )
         user_id = int(payload.get("userid"))
 
-        residences = residence_repo.get_residences(db, user_id)
-        plot_generator = PlotGenerator(user_id=user_id, residences=residences, db=db)
+        plot_generator = PlotGenerator(user_id=user_id, db=db)
         plot_generator.generate_plots()
 
         return templates.TemplateResponse(
@@ -148,8 +147,7 @@ def get_world_map(
         )
         user_id = int(payload.get("userid"))
 
-        residences = residence_repo.get_residences(db, user_id)
-        plot_generator = PlotGenerator(user_id=user_id, residences=residences, db=db)
+        plot_generator = PlotGenerator(user_id=user_id, db=db)
         plot_generator.generate_worldmap()
 
         return templates.TemplateResponse(
