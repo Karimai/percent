@@ -25,7 +25,7 @@ app = FastAPI(
 api_v01 = FastAPI()
 app.mount(path="/api/v01", app=api_v01)
 
-ALLOWED_URLS = ["/login", "/login/", "/user/register", "/"]
+ALLOWED_URLS = ["/user/register", "/"]
 
 app.include_router(user.router)
 api_v01.include_router(user.api_v01_router)
@@ -66,7 +66,7 @@ async def index(
 
 @app.middleware("http")
 async def access_check(request: Request, call_next):
-    if request.url.path not in ALLOWED_URLS:
+    if "login" in request.url.path or request.url.path not in ALLOWED_URLS:
         token = request.cookies.get("access_token")
         if not token:
             return RedirectResponse(url="/login/")
