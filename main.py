@@ -25,7 +25,7 @@ app = FastAPI(
 api_v01 = FastAPI()
 app.mount(path="/api/v01", app=api_v01)
 
-ALLOWED_URLS = ["user/register", "", "auth"]
+ALLOWED_URLS = ["/user/register", "/"]
 
 app.include_router(user.router)
 api_v01.include_router(user.api_v01_router)
@@ -66,18 +66,19 @@ async def index(
 
 @app.middleware("http")
 async def access_check(request: Request, call_next):
-    if "login" in request.url.path or request.url.path.strip("/") in ALLOWED_URLS:
-        response = await call_next(request)
-        return response
-
-    token = request.cookies.get("access_token")
-    if not token:
-        return RedirectResponse(url="/login/")
-    try:
-        # just to check if the token is still valid.
-        # It will raise an exception if it is already expired.
-        jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM"))
-    except jwt.ExpiredSignatureError:
-        response = RedirectResponse(url="/login/")
-        response.delete_cookie("access_token")
-        return response
+    if "login" in request.url.path or request.url.path not in ALLOWED_URLS:
+        token = request.cookies.get("access_token")
+        if not token:
+            return RedirectResponse(url="/login/")
+        try:
+            # just to check if the token is still valid.
+            # It will raise an exception if it is already expired.
+            jwt.decode(
+                token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM")
+            )
+        except jwt.ExpiredSignatureError:
+            response = RedirectResponse(url="/login/")
+            response.delete_cookie("access_token")
+            return response
+    response = await call_next(request)
+    return response
