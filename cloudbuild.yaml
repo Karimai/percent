@@ -20,6 +20,11 @@ steps:
       - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
       - '.'
 
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
+
   - name: 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
     env:
       - 'DB_USER=$_DB_USER'
@@ -38,11 +43,6 @@ steps:
       - 'python'
       - '-m'
       - 'pytest'
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'push'
-      - 'us-central1-docker.pkg.dev/percentpassed/percent/percent-app:$SHORT_SHA'
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
