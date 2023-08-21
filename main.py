@@ -66,20 +66,27 @@ async def index(
 
 @app.middleware("http")
 async def access_check(request: Request, call_next):
-    if "login" not in request.url.path and request.url.path not in ALLOWED_URLS:
-        token = request.cookies.get("access_token")
-        if not token:
-            return RedirectResponse(url="/login/")
-        try:
-            # just to check if the token is still valid.
-            # It will raise an exception if it is already expired.
-            jwt.decode(
-                token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM")
-            )
-        except jwt.ExpiredSignatureError:
-            response = RedirectResponse(url="/login/")
-            response.delete_cookie("access_token")
-            return response
+    print("access check")
+    if (
+        "docs" in request.url.path
+        or "login" in request.url.path
+        or request.url.path not in ALLOWED_URLS
+    ):
+        response = await call_next(request)
+        return response
+
+    print("access check -> token check")
+    token = request.cookies.get("access_token")
+    if not token:
+        return RedirectResponse(url="/login/")
+    try:
+        # just to check if the token is still valid.
+        # It will raise an exception if it is already expired.
+        jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM"))
+    except jwt.ExpiredSignatureError:
+        response = RedirectResponse(url="/login/")
+        response.delete_cookie("access_token")
+        return response
 
     response = await call_next(request)
     return response
