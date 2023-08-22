@@ -15,13 +15,13 @@ from utility.helper import generate_token
 
 load_dotenv()
 
-router = APIRouter(tags=["Login"], prefix="/login")
-api_v01_router = APIRouter(tags=["Login"], prefix="/login")
+router = APIRouter(tags=["Login"], prefix="")
+api_v01_router = APIRouter(tags=["Login"], prefix="")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login/auth/")
 
 
-@router.get("/", include_in_schema=False)
+@router.get("/login/", include_in_schema=False)
 async def login(request: Request, msg: str = None):
     """
     Render the login page.
@@ -33,7 +33,7 @@ async def login(request: Request, msg: str = None):
     return templates.TemplateResponse("login.html", {"request": request, "msg": msg})
 
 
-@router.post("/", include_in_schema=False)
+@router.post("/login/", include_in_schema=False)
 async def login(  # noqa: F811
     request: Request,
     db: Annotated[Session, Depends(get_db)],
@@ -74,8 +74,8 @@ async def login(  # noqa: F811
     return response
 
 
-@api_v01_router.post("/auth/")
-@router.post("/auth/")
+@api_v01_router.post("/login/auth/")
+@router.post("/login/auth/")
 def auth(
     request: Annotated[OAuth2PasswordRequestForm, Depends()],
     db: Annotated[Session, Depends(get_db)],

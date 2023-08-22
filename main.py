@@ -66,16 +66,14 @@ async def index(
 
 @app.middleware("http")
 async def access_check(request: Request, call_next):
-    print("access check")
     if (
-        "docs" in request.url.path
+        "api" in request.url.path
         or "login" in request.url.path
         or request.url.path not in ALLOWED_URLS
     ):
         response = await call_next(request)
         return response
 
-    print("access check -> token check")
     token = request.cookies.get("access_token")
     if not token:
         return RedirectResponse(url="/login/")
